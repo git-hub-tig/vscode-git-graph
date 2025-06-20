@@ -178,6 +178,10 @@
 									"type": "boolean",
 									"title": "Push Branch..."
 								},
+								"pull": {
+									"type": "boolean",
+									"title": "Pull Branch..."
+								},
 								"viewIssue": {
 									"type": "boolean",
 									"title": "View Issue"
