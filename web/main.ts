@@ -872,6 +872,137 @@ class GitGraphView {
 	}
 
 
+		// Find the commit that the current branch points to
+		let currentBranchCommitIndex = -1;
+		for (let i = 0; i < this.commits.length; i++) {
+			if (this.commits[i].heads && this.commits[i].heads.includes(this.gitBranchHead)) {
+				currentBranchCommitIndex = i;
+				break;
+			}
+		}
+
+		if (currentBranchCommitIndex === -1) return false;
+
+		for (const hash of Array.from(this.selectedCommits)) {
+			const index = this.commitLookup[hash];
+			if (index < currentBranchCommitIndex) {
+				const commit = this.commits[index];
+				if (!commit.heads || !commit.heads.includes(this.gitBranchHead)) {
+					return false;
+				}
+			}
+		}
+
+		return true;
+	}
+
+	private dropCommitsPossible(): boolean {
+		if (this.selectedCommits.size === 0) return false;
+
+		for (const hash of Array.from(this.selectedCommits)) {
+			const index = this.commitLookup[hash];
+			if (!this.graph.dropCommitPossible(index)) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	private squashCommitsAction(target: DialogTarget & CommitTarget) {
+		const selectedCommits = this.getSelectedCommitsArray();
+		if (selectedCommits.length < 2) return;
+
+		const newestCommit = selectedCommits[0];
+		const newestCommitData = this.commits[this.commitLookup[newestCommit]];
+
+		const commitsList = selectedCommits.map(hash => {
+			const commitData = this.commits[this.commitLookup[hash]];
+			return `<b>${abbrevCommit(hash)}</b> - ${escapeHtml(commitData.message)}`;
+		}).join('<br>');
+
+		dialog.showForm(
+			`Are you sure you want to squash ${selectedCommits.length} commits into one?<br><br>` +
+			`${commitsList}`,
+			[{
+				type: DialogInputType.Text,
+				name: 'Commit Message',
+				default: newestCommitData.message,
+				placeholder: 'Enter the commit message for the squashed commit'
+			}],
+			'Yes, squash commits',
+			(values) => {
+				const commitMessage = <string>values[0];
+				runAction({
+					command: 'squashCommits',
+					repo: this.currentRepo,
+					commits: selectedCommits,
+					commitMessage: commitMessage
+				}, 'Squashing Commits');
+				this.clearCommitSelection();
+			},
+			target
+		);
+	}
+
+	private dropSelectedCommitsAction(target: DialogTarget) {
+		const selectedCommits = this.getSelectedCommitsArray();
+		if (selectedCommits.length === 0) return;
+
+		const commitsList = selectedCommits.map(hash => {
+			const commitData = this.commits[this.commitLookup[hash]];
+			return `<b>${abbrevCommit(hash)}</b> - ${escapeHtml(commitData.message)}`;
+		}).join('<br>');
+
+		dialog.showConfirmation(
+			`Are you sure you want to permanently drop ${selectedCommits.length} commit${selectedCommits.length > 1 ? 's' : ''}?<br><br>${commitsList}` +
+			(this.onlyFollowFirstParent ? '<br/><br/><i>Note: By enabling "Only follow the first parent of commits", some commits may have been hidden from the Git Graph View that could affect the outcome of performing this action.</i>' : ''),
+			'Yes, drop',
+			() => {
+				runAction({
+					command: 'dropCommits',
+					repo: this.currentRepo,
+					commits: selectedCommits
+				}, 'Dropping Commits');
+				this.clearCommitSelection();
+			},
+			target
+		);
+	}
+
+	private editCommitMessageAction(target: DialogTarget & CommitTarget) {
+		const hash = target.hash;
+		const commit = this.commits[this.commitLookup[hash]];
+
+		dialog.showForm(
+			`Edit commit message for <b><i>${abbrevCommit(hash)}</i></b>:`,
+			[{
+				type: DialogInputType.Text,
+				name: 'Commit Message',
+				default: commit.message,
+				placeholder: 'Enter the new commit message'
+			}],
+			'Update Message',
+			(values) => {
+				const newMessage = <string>values[0];
+				if (newMessage.trim() === '') {
+					dialog.showError('Commit message cannot be empty.', null, null, null);
+					return;
+				}
+				if (newMessage === commit.message) {
+					return; // No change needed
+				}
+				runAction({
+					command: 'editCommitMessage',
+					repo: this.currentRepo,
+					commitHash: hash,
+					message: newMessage
+				}, 'Editing Commit Message');
+			},
+			target
+		);
+	}
+
+
 	/* Renderers */
 
 	private render() {
@@ -1369,6 +1500,18 @@ class GitGraphView {
 						}, target);
 					}
 				}
+			}, {
+				title: 'Reset Last Commit (Soft)' + ELLIPSIS,
+				visible: visibility.undo && hash === this.commitHead,
+				onClick: () => {
+					dialog.showConfirmation('Are you sure you want to reset the last commit? This will keep all changes from the commit as uncommitted changes.', 'Yes, reset the last commit', () => {
+						runAction({ command: 'undoLastCommit', repo: this.currentRepo }, 'Resetting Last Commit');
+					}, target);
+				}
+			}, {
+				title: 'Edit Message' + ELLIPSIS,
+				visible: visibility.editMessage,
+				onClick: () => this.editCommitMessageAction(target)
 			}, {
 				title: 'Drop' + ELLIPSIS,
 				visible: visibility.drop && this.graph.dropCommitPossible(this.commitLookup[hash]),
@@ -3519,6 +3662,12 @@ window.addEventListener('load', () => {
 				break;
 			case 'dropCommit':
 				refreshOrDisplayError(msg.error, 'Unable to Drop Commit');
+				break;
+			case 'dropCommits':
+				refreshOrDisplayError(msg.error, 'Unable to Drop Commits');
+				break;
+			case 'editCommitMessage':
+				refreshOrDisplayError(msg.error, 'Unable to Edit Commit Message');
 				break;
 			case 'dropStash':
 				refreshOrDisplayError(msg.error, 'Unable to Drop Stash');
