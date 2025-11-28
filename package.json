@@ -30,7 +30,7 @@
 		"url": "https://github.com/git-hub-tig/vscode-git-graph/issues"
 	},
 	"qna": "https://github.com/git-hub-tig/vscode-git-graph/wiki/Support-Resources",
-	"license": "SEE LICENSE IN 'LICENSE'",
+	"license": "SEE LICENSE IN LICENSE",
 	"icon": "resources/icon.png",
 	"engines": {
 		"vscode": "^1.38.0"
