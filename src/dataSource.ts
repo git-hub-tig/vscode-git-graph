@@ -1706,6 +1706,14 @@ export class DataSource extends Disposable {
 		});
 	}
 
+	private getTags(repo: string) {
+		return this.spawnGit(['tag', '--list'], repo, (stdout) => {
+			const lines = stdout.split(EOL_REGEX);
+			lines.pop();
+			return lines.sort();
+		});
+	}
+
 	/**
 	 * Get the signature of a signed tag.
 	 * @param repo The path of the repository.
