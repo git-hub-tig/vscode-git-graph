@@ -9,7 +9,7 @@ import { Logger } from './logger';
 import { ActionedUser, CommitOrdering, DateType, DeepWriteable, ErrorInfo, ErrorInfoExtensionPrefix, GitCommit, GitCommitDetails, GitCommitStash, GitConfigLocation, GitFileChange, GitFileStatus, GitPushBranchMode, GitRepoConfig, GitRepoConfigBranches, GitResetMode, GitSignature, GitSignatureStatus, GitStash, GitTagDetails, MergeActionOn, RebaseActionOn, SquashMessageFormat, TagType, Writeable } from './types';
 import { GitExecutable, GitVersionRequirement, UNABLE_TO_FIND_GIT_MSG, UNCOMMITTED, abbrevCommit, constructIncompatibleGitVersionMessage, doesVersionMeetRequirement, getPathFromStr, getPathFromUri, openGitTerminal, pathWithTrailingSlash, realpath, resolveSpawnOutput, showErrorMessage } from './utils';
 import { Disposable } from './utils/disposable';
-import { Event } from './utils/event';
+import { GgEvent } from './utils/event';
 
 const DRIVE_LETTER_PATH_REGEX = /^[a-z]:\//;
 const EOL_REGEX = /\r\n|\r|\n/g;
@@ -52,7 +52,7 @@ export class DataSource extends Disposable {
 	 * @param onDidChangeGitExecutable The Event emitting the Git executable for Git Graph to use.
 	 * @param logger The Git Graph Logger instance.
 	 */
-	constructor(gitExecutable: GitExecutable | null, onDidChangeConfiguration: Event<vscode.ConfigurationChangeEvent>, onDidChangeGitExecutable: Event<GitExecutable>, logger: Logger) {
+	constructor(gitExecutable: GitExecutable | null, onDidChangeConfiguration: GgEvent<vscode.ConfigurationChangeEvent>, onDidChangeGitExecutable: GgEvent<GitExecutable | null>, logger: Logger) {
 		super();
 		this.logger = logger;
 		this.setGitExecutable(gitExecutable);
@@ -138,12 +138,13 @@ export class DataSource extends Disposable {
 		return Promise.all([
 			this.getBranches(repo, showRemoteBranches, hideRemotes),
 			this.getRemotes(repo),
-			showStashes ? this.getStashes(repo) : Promise.resolve([])
+			showStashes ? this.getStashes(repo) : Promise.resolve([]),
+			this.getTags(repo)
 		]).then((results) => {
 			/* eslint no-console: "error" */
-			return { branches: results[0].branches, head: results[0].head, remotes: results[1], stashes: results[2], error: null };
+			return { branches: results[0].branches, head: results[0].head, remotes: results[1], stashes: results[2], tags: results[3], error: null };
 		}).catch((errorMessage) => {
-			return { branches: [], head: null, remotes: [], stashes: [], error: errorMessage };
+			return { branches: [], head: null, remotes: [], stashes: [], tags: [], error: errorMessage };
 		});
 	}
 	/**
