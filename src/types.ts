@@ -908,6 +908,7 @@ export interface RequestLoadCommits extends RepoRequest {
 	readonly refreshId: number;
 	readonly branches: ReadonlyArray<string> | null; // null => Show All
 	readonly authors: ReadonlyArray<string> | null; // null => Show All
+	readonly tags: ReadonlyArray<string> | null; // null => Show All
 	readonly maxCommits: number;
 	readonly showTags: boolean;
 	readonly showRemoteBranches: boolean;

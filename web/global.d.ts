@@ -59,6 +59,7 @@ declare global {
 		readonly avatars: AvatarImageCollection;
 		readonly currentBranches: string[] | null;
 		readonly currentAuthors: string[] | null;
+		readonly currentTags: string[] | null;
 		readonly moreCommitsAvailable: boolean;
 		readonly maxCommits: number;
 		readonly onlyFollowFirstParent: boolean;

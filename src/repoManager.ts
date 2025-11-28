@@ -9,7 +9,7 @@ import { BooleanOverride, ErrorInfo, FileViewType, GitRepoSet, GitRepoState, Pul
 import { evalPromises, getPathFromStr, getPathFromUri, getRepoName, pathWithTrailingSlash, realpath, showErrorMessage, showInformationMessage } from './utils';
 import { BufferedQueue } from './utils/bufferedQueue';
 import { Disposable, toDisposable } from './utils/disposable';
-import { Event, EventEmitter } from './utils/event';
+import { EventEmitter, GgEvent } from './utils/event';
 
 export interface RepoChangeEvent {
 	readonly repos: GitRepoSet;
@@ -44,7 +44,7 @@ export class RepoManager extends Disposable {
 	 * @param extensionState The Git Graph ExtensionState instance.
 	 * @param logger The Git Graph Logger instance.
 	 */
-	constructor(dataSource: DataSource, extensionState: ExtensionState, onDidChangeConfiguration: Event<vscode.ConfigurationChangeEvent>, logger: Logger) {
+	constructor(dataSource: DataSource, extensionState: ExtensionState, onDidChangeConfiguration: GgEvent<vscode.ConfigurationChangeEvent>, logger: Logger) {
 		super();
 		this.dataSource = dataSource;
 		this.extensionState = extensionState;

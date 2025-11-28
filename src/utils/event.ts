@@ -3,25 +3,25 @@ import * as vscode from 'vscode';
 /**
  * A function used by a subscriber to process an event emitted from an EventEmitter.
  */
-type EventListener<T> = (event: T) => void;
+type GgEventListener<T> = (event: T) => void;
 
 /**
  * A function used to subscribe to an EventEmitter.
  */
-export type Event<T> = (listener: EventListener<T>) => vscode.Disposable;
+export type GgEvent<T> = (listener: GgEventListener<T>) => vscode.Disposable;
 
 /**
  * Represents an EventEmitter, which is used to automate the delivery of events to subscribers. This applies the observer pattern.
  */
 export class EventEmitter<T> implements vscode.Disposable {
-	private readonly event: Event<T>;
-	private listeners: EventListener<T>[] = [];
+	private readonly event: GgEvent<T>;
+	private listeners: GgEventListener<T>[] = [];
 
 	/**
 	 * Creates an EventEmitter.
 	 */
 	constructor() {
-		this.event = (listener: EventListener<T>) => {
+		this.event = (listener: GgEventListener<T>) => {
 			this.listeners.push(listener);
 			return {
 				dispose: () => {

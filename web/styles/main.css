@@ -815,7 +815,7 @@ body.tagLabelsRightAligned .gitRef.tag{
 	white-space:nowrap;
 	margin:0 10px;
 }
-#repoDropdown, #branchDropdown #authorDropdown{
+#repoDropdown, #branchDropdown, #authorDropdown{
 	margin-left:3px;
 }
 #showRemoteBranchesControl > .customCheckbox{

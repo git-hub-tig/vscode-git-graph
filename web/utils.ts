@@ -48,8 +48,8 @@ const SVG_ICONS = {
 	expandAll: '<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9 9H4V10H9V9Z" fill="#C5C5C5"/><path d="M7 12L7 7L6 7L6 12L7 12Z" fill="#C5C5C5"/><path fill-rule="evenodd" clip-rule="evenodd" d="M5 3L6 2H13L14 3V10L13 11H11V13L10 14H3L2 13V6L3 5H5V3ZM6 5H10L11 6V10H13V3H6V5ZM10 6H3V13H10V6Z" fill="#C5C5C5"/></svg>'
 };
 
-const GIT_FILE_CHANGE_TYPES = { 'A': 'Added', 'M': 'Modified', 'D': 'Deleted', 'R': 'Renamed', 'U': 'Untracked' };
-const GIT_SIGNATURE_STATUS_DESCRIPTIONS = {
+const GIT_FILE_CHANGE_TYPES: Record<string, string> = { 'A': 'Added', 'M': 'Modified', 'D': 'Deleted', 'R': 'Renamed', 'U': 'Untracked' };
+const GIT_SIGNATURE_STATUS_DESCRIPTIONS: Record<string, string> = {
 	'G': 'Valid Signature',
 	'U': 'Good Signature with Unknown Validity',
 	'X': 'Good Signature that has Expired',

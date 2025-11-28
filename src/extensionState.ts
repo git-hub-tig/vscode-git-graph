@@ -5,7 +5,7 @@ import { getConfig } from './config';
 import { BooleanOverride, CodeReview, ErrorInfo, FileViewType, GitGraphViewGlobalState, GitGraphViewWorkspaceState, GitRepoSet, GitRepoState, RepoCommitOrdering } from './types';
 import { GitExecutable, getPathFromStr } from './utils';
 import { Disposable } from './utils/disposable';
-import { Event } from './utils/event';
+import { GgEvent } from './utils/event';
 
 const AVATAR_STORAGE_FOLDER = '/avatars';
 const AVATAR_CACHE = 'avatarCache';
@@ -72,7 +72,7 @@ export class ExtensionState extends Disposable {
 	 * @param context The context of the extension.
 	 * @param onDidChangeGitExecutable The Event emitting the Git executable for Git Graph to use.
 	 */
-	constructor(context: vscode.ExtensionContext, onDidChangeGitExecutable: Event<GitExecutable>) {
+	constructor(context: vscode.ExtensionContext, onDidChangeGitExecutable: GgEvent<GitExecutable | null>) {
 		super();
 		this.globalState = context.globalState;
 		this.workspaceState = context.workspaceState;
@@ -95,7 +95,9 @@ export class ExtensionState extends Disposable {
 
 		this.registerDisposable(
 			onDidChangeGitExecutable((gitExecutable) => {
-				this.setLastKnownGitPath(gitExecutable.path);
+				if (gitExecutable) {
+					this.setLastKnownGitPath(gitExecutable.path);
+				}
 			})
 		);
 	}
