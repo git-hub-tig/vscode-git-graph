@@ -121,6 +121,7 @@ class FindWidget {
 			this.widgetElem.classList.add(CLASS_ACTIVE);
 		}
 		this.inputElem.focus();
+		this.inputElem.select();
 	}
 
 	/**
