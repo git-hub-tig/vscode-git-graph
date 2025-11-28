@@ -113,7 +113,7 @@ export class DataSource extends Disposable {
 		this.gitFormatLog = [
 			'%H', '%P', // Hash & Parent Information
 			useMailmap ? '%aN' : '%an', useMailmap ? '%aE' : '%ae', dateType, // Author / Commit Information
-			'%s' // Subject
+			'%B' // Body
 		].join(GIT_LOG_SEPARATOR);
 
 		this.gitFormatStash = [
@@ -1544,7 +1544,7 @@ export class DataSource extends Disposable {
 	 * @returns An array of commits.
 	 */
 	private getLog(repo: string, branches: ReadonlyArray<string> | null, authors: ReadonlyArray<string> | null, num: number, includeTags: boolean, includeRemotes: boolean, includeCommitsMentionedByReflogs: boolean, onlyFollowFirstParent: boolean, order: CommitOrdering, remotes: ReadonlyArray<string>, hideRemotes: ReadonlyArray<string>, stashes: ReadonlyArray<GitStash>) {
-		const args = ['-c', 'log.showSignature=false', 'log', '--max-count=' + num, '--format=' + this.gitFormatLog, '--' + order + '-order'];
+		const args = ['-c', 'log.showSignature=false', 'log', '--max-count=' + num, '--format=' + this.gitFormatLog, '--' + order + '-order', '-z'];
 		if (onlyFollowFirstParent) {
 			args.push('--first-parent');
 		}
@@ -1579,15 +1579,22 @@ export class DataSource extends Disposable {
 		}
 		args.push('--');
 
-
-
-		return this.spawnGit(args, repo, (stdout) => {
-			let lines = stdout.split(EOL_REGEX);
-			let commits: GitCommitRecord[] = [];
-			for (let i = 0; i < lines.length - 1; i++) {
-				let line = lines[i].split(GIT_LOG_SEPARATOR);
-				if (line.length !== 6) break;
-				commits.push({ hash: line[0], parents: line[1] !== '' ? line[1].split(' ') : [], author: line[2], email: line[3], date: parseInt(line[4]), message: line[5] });
+		return this.spawnGit(args, repo, (stdoutBuf) => {
+			const text = stdoutBuf.toString().replace(/\0$/, ''); // trim trailing NUL
+			const records = text.split('\0');
+			const commits: GitCommitRecord[] = [];
+			for (const rec of records) {
+				const parts = rec.split(GIT_LOG_SEPARATOR);
+				// parts = [hash, parents, author, email, date, full body]
+				if (parts.length < 6) continue;
+				commits.push({
+					hash: parts[0],
+					parents: parts[1] ? parts[1].split(' ') : [],
+					author: parts[2],
+					email: parts[3],
+					date: parseInt(parts[4], 10),
+					message: parts.slice(5).join(GIT_LOG_SEPARATOR)
+				});
 			}
 			return commits;
 		});

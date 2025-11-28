@@ -865,7 +865,21 @@ class GitGraphView {
 
 		for (let i = 0; i < this.commits.length; i++) {
 			let commit = this.commits[i];
-			let message = '<span class="text">' + textFormatter.format(commit.message) + '</span>';
+			let subject = commit.message;
+			let body = '';
+
+			let splitMessage = commit.message.split('\n\n');
+
+			if(splitMessage.length > 1) {
+				subject = splitMessage[0];
+				splitMessage.shift();
+				body = splitMessage.join('\n\n');
+			}
+
+			let message = '<span class="text">' + textFormatter.format(subject) + '</span>';
+			if(body !== '') {
+				message += '<span class="text commitbody">' + textFormatter.format(body) + '</span>';
+			}
 			let date = formatShortDate(commit.date);
 			let branchLabels = getBranchLabels(commit.heads, commit.remotes);
 			let refBranches = '', refTags = '', j, k, refName, remoteName, refActive, refHtml, branchCheckedOutAtCommit: string | null = null;

@@ -227,7 +227,12 @@ code{
 	text-overflow:ellipsis;
 	white-space:nowrap;
 	overflow:hidden;
-	flex-grow:1;
+	/*	flex-grow:1; */
+	margin-right:1em;
+}
+
+#commitTable tr.commit span.description .text.commitbody{
+	opacity: 0.5;
 }
 
 #commitTable tr.commit.mute td.text, #commitTable tr.commit.mute span.description .text{
