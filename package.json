@@ -39,7 +39,9 @@
 		"workspace"
 	],
 	"activationEvents": [
-		"*"
+		"onCommand:git-graph.view",
+		"onCommand:git-graph.version",
+		"workspaceContains:.git"
 	],
 	"main": "./out/extension.js",
 	"contributes": {
