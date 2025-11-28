@@ -1,5 +1,12 @@
 # Change Log
 
+## 1.34.0
+* Add a dropdown to filter by tags.
+* Update activationEvents to improve startup performance.
+* Add Find Widget to search for commits.
+* Add double newline support in commit messages.
+* Various bug fixes and performance improvements.
+
 ## 1.32.0 - 2025-02-10
 * Solve context right-click menu dissapeared since 1.97 vscode.
 
