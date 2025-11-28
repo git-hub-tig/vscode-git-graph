@@ -7,7 +7,6 @@ View a Git Graph of your repository, and perform Git actions from the graph.
 For any issues or advice, you can find the pull requests page [here](https://github.com/git-hub-tig/vscode-git-graph/pulls).
 ## Resources
 
-*   [Gxl's Repository](https://github.com/git-hub-tig/vscode-git-graph)
 *   [Issues](https://github.com/git-hub-tig/vscode-git-graph/issues)
 *   [Marketplace](https://marketplace.visualstudio.com/items?itemName=Gxl.git-graph-3)
 
