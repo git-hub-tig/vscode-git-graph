@@ -3,6 +3,9 @@
 	"displayName": "Git Graph v3",
 	"version": "1.33.0",
 	"publisher": "Gxl",
+	"engine": {
+		"node": "18.17.1"
+	},
 	"author": {
 		"name": "Gxl",
 		"email": "gxli@bupt.edu.cn"
