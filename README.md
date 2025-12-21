@@ -1,8 +1,10 @@
-# Git Graph (Fork)
+# Git Branch & Tag Graph
 
-View a Git Graph of your repository, and perform Git actions from the graph.
+**This extension is a distinct fork of the original [Git Graph](https://github.com/mhutchie/vscode-git-graph) extension.**
 
-**This is a fork of the stale [Git Graph](https://github.com/mhutchie/vscode-git-graph) extension, and the source code can be found on [GitHub](https://github.com/git-hub-tig/vscode-git-graph).**
+View a Git Graph of your repository, and perform Git actions from the graph. This fork includes critical fixes for recent VS Code versions and new features not present in the original.
+
+**Source Code**: [GitHub](https://github.com/git-hub-tig/vscode-git-graph)
 
 For any issues or advice, you can find the pull requests page [here](https://github.com/git-hub-tig/vscode-git-graph/pulls).
 ## Resources
@@ -21,9 +23,9 @@ The original Git Graph extension is an excellent tool, but some issues have rema
 *   Improve performance and responsiveness.
 *   Add new features that enhance the user experience.
 
-## Key Enhancements in This Fork
+## Distinguishing Features
 
-*   **Bug Fixes**: Various bug fixes and performance improvements have been implemented.
+*   **Bug Fixes**: Solve context right-click menu dissapeared since 1.97 vscode.
 *   **Tag Filtering**: A new dropdown menu allows you to filter the graph by tags.
 *   **Performance Improvements**: The extension's activation events have been optimized for faster startup.
 *   **Find Widget**: A search widget has been added to quickly find commits.
