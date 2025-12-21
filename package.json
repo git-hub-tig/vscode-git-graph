@@ -10,7 +10,7 @@
 		"name": "Gxl",
 		"email": "gxli@bupt.edu.cn"
 	},
-	"description": "Solve Git Graph issues and keep up with latest VSCode",
+	"description": "Show Git Branch & Tag Graph",
 	"keywords": [
 		"git",
 		"graph",
