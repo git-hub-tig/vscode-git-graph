@@ -1,5 +1,10 @@
 # Change Log
 
+## 1.35.0
+* Update README to explicitly state that this extension is a distinct fork of the original Git Graph.
+* Clarify distinguishing features and additional value provided by this fork.
+* Update branding and description to differentiate from the original extension.
+
 ## 1.34.0
 * Add a dropdown to filter by tags.
 * Update activationEvents to improve startup performance.
