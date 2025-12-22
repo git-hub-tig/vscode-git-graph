@@ -1,4 +1,15 @@
+// TODO(Carson): Error: Unable to Fetch from Remote(s)
+// Host key verification failed.
+// fatal: Could not read from remote repository.
 
+// Please make sure you have the correct access rights
+// and the repository exists.
+
+// But manual terminal git pull can solve it:
+// The authenticity of host 'github.pie.apple.com (17.121.132.15)' can't be established.
+// ECDSA key fingerprint is SHA256:7ZIubzLSVVGGQ2BgrPF+QnkDYjuJ/xs754ZS8oAZ7QY.
+// This key is not known by any other names.
+// Are you sure you want to continue connecting (yes/no/[fingerprint])? 
 class GitGraphView {
 	private gitRepos: GG.GitRepoSet;
 	private gitBranches: ReadonlyArray<string> = [];
