@@ -3,7 +3,7 @@ name: Question
 about: Do you have a question about Git Graph?
 title: ''
 labels: question
-assignees: hansu
+assignees: ''
 
 ---
 

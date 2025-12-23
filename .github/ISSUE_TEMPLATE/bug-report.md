@@ -3,7 +3,7 @@ name: Bug Report
 about: Raise a bug you've found to help us improve
 title: ''
 labels: bug
-assignees: hansu
+assignees: ''
 
 ---
 
