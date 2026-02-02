@@ -1,16 +1,16 @@
 {
-	"name": "git-graph-3",
-	"displayName": "Git Branch & Tag Graph",
+	"name": "git-graph-primeinc",
+	"displayName": "Git Graph (primeinc)",
 	"version": "1.35.0",
-	"publisher": "Gxl",
+	"publisher": "primeinc",
 	"engine": {
 		"node": "18.17.1"
 	},
 	"author": {
-		"name": "Gxl",
-		"email": "gxli@bupt.edu.cn"
+		"name": "primeinc",
+		"email": "vincit.omnia.veritas@lellirose.com"
 	},
-	"description": "Show Git Branch & Tag Graph",
+	"description": "View a Git Graph of your repository, and perform Git actions from the graph. Fork with extended features.",
 	"keywords": [
 		"git",
 		"graph",
@@ -21,16 +21,16 @@
 	"categories": [
 		"Other"
 	],
-	"homepage": "https://github.com/git-hub-tig/vscode-git-graph",
+	"homepage": "https://github.com/primeinc/vscode-git-graph",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/git-hub-tig/vscode-git-graph.git"
+		"url": "https://github.com/primeinc/vscode-git-graph.git"
 	},
 	"bugs": {
-		"url": "https://github.com/git-hub-tig/vscode-git-graph/issues"
+		"url": "https://github.com/primeinc/vscode-git-graph/issues"
 	},
-	"qna": "https://github.com/git-hub-tig/vscode-git-graph/wiki/Support-Resources",
-	"license": "SEE LICENSE IN LICENSE",
+	"qna": "https://github.com/primeinc/vscode-git-graph/wiki/Support-Resources",
+	"license": "MIT",
 	"icon": "resources/icon.png",
 	"engines": {
 		"vscode": "^1.38.0"

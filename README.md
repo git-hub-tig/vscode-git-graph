@@ -4,13 +4,13 @@
 
 View a Git Graph of your repository, and perform Git actions from the graph. This fork includes critical fixes for recent VS Code versions and new features not present in the original.
 
-**Source Code**: [GitHub](https://github.com/git-hub-tig/vscode-git-graph)
+**Source Code**: [GitHub](https://github.com/primeinc/vscode-git-graph)
 
-For any issues or advice, you can find the pull requests page [here](https://github.com/git-hub-tig/vscode-git-graph/pulls).
+For any issues or advice, you can find the pull requests page [here](https://github.com/primeinc/vscode-git-graph/pulls).
 ## Resources
 
-*   [Issues](https://github.com/git-hub-tig/vscode-git-graph/issues)
-*   [Marketplace](https://marketplace.visualstudio.com/items?itemName=Gxl.git-graph-3)
+*   [Issues](https://github.com/primeinc/vscode-git-graph/issues)
+*   [Marketplace](https://marketplace.visualstudio.com/items?itemName=primeinc.git-graph-primeinc)
 
 This version aims to address some of the long-standing issues and to keep up with the latest VSCode updates.
 
@@ -59,15 +59,50 @@ This fork retains all the features of the original Git Graph extension, includin
 
 ## Extension Settings
 
-For a detailed list of all available settings, please refer to the [Extension Settings documentation](https://github.com/git-hub-tig/vscode-git-graph/wiki/Extension-Settings).
+For a detailed list of all available settings, please refer to the [Extension Settings documentation](https://github.com/primeinc/vscode-git-graph/wiki/Extension-Settings).
 
 ## Release Notes
 
 Detailed release notes are available in the [CHANGELOG.md](CHANGELOG.md).
 
+## Fork History & Latest Changes
+
+This extension is part of a fork chain that extends the original Git Graph with additional features:
+
+### Original Repository: [mhutchie/vscode-git-graph](https://github.com/mhutchie/vscode-git-graph)
+**Latest Version: 1.30.0** (2021-04-05)
+- Added "Force Fetch" option for local branches
+- New "View Diff with Working File" action
+- "Copy Relative File Path to Clipboard" action
+- Space substitution in reference inputs
+- "Open File" action in VS Code Diff View Title Menu
+
+### Parent Fork: [hansu/vscode-git-graph](https://github.com/hansu/vscode-git-graph)
+**Latest Version: 1.31.6** (2025-09-19)
+- Panel view and bulk commit operations
+- Multi-selection for commits (Ctrl+click/Shift+click)
+- 'Squash Selected Commits' and 'Drop Selected Commits' actions
+- 'Reset Last Commit' functionality
+- 'Edit Message' action in commit context menu
+- 'Pull Branch' action with "Force Update" option
+
+### Upstream Fork: [git-hub-tig/vscode-git-graph](https://github.com/git-hub-tig/vscode-git-graph)
+**Latest Version: 1.35.0**
+- Dropdown to filter by tags
+- Updated activationEvents for improved startup performance
+- Find Widget for searching commits
+- Double newline support in commit messages
+- Context right-click menu fix for VS Code 1.97+
+
+### This Repository (primeinc/vscode-git-graph)
+Building on all the features from the fork chain above, with additional customizations for @primeinc workflows.
+
 ## Acknowledgements
 
-A big thank you to the original author, [mhutchie](https://github.com/mhutchie), for creating this amazing extension.
+A big thank you to:
+- [mhutchie](https://github.com/mhutchie) - Original author who created this amazing extension
+- [hansu](https://github.com/hansu) - For adding panel views, multi-selection, and bulk commit operations
+- [git-hub-tig](https://github.com/git-hub-tig) - For maintaining compatibility with recent VS Code versions and adding tag filtering
 
 Some of the icons used in Git Graph are from the following sources:
 - [GitHub Octicons](https://octicons.github.com/) ([License](https://github.com/primer/octicons/blob/master/LICENSE))

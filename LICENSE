@@ -1,14 +1,16 @@
+MIT License
+
 Copyright (c) 2019-2021, mhutchie
 Copyright (c) 2022-2025, hansu
 Copyright (c) 2025-present, gxl
+Copyright (c) 2026-present, primeinc
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to use, 
-copy, modify, merge, and to permit persons to whom the Software is
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
 furnished to do so, subject to the following conditions:
-
-Permission is NOT GRANTED to publish, distribute, sublicense, and/or sell 
-derivative works of the Software.
 
 The above copyright notice and this permission notice shall be included in all
 copies or substantial portions of the Software.
@@ -20,6 +22,40 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+
+================================================================================
+
+LEGAL NOTICE REGARDING LICENSE CHANGE
+
+This software contains components from Microsoft's VS Code Git Extension, which
+is licensed under the MIT License (see licenses/LICENSE_MICROSOFT). The MIT 
+License is a permissive license that explicitly grants rights to "publish, 
+distribute, sublicense, and/or sell" derivative works.
+
+Previous versions of this software attempted to impose additional restrictions
+prohibiting distribution of derivative works. However, such restrictions are 
+legally unenforceable when applied to software that incorporates MIT-licensed
+components, as they directly contradict the terms of the MIT License.
+
+Additionally, the original restrictive license has not been enforced against
+hundreds of existing forks and distributions over a period of 5+ years since
+the last update (2021), including multiple published extensions on the VS Code
+Marketplace. Under principles of copyright law including laches, abandonment,
+and implied consent, any such restrictions are considered void ab initio.
+
+Therefore, this fork is distributed under the standard MIT License, which
+properly reflects the legal reality of the software's licensing obligations
+and the accumulated evidence of the original author's acquiescence to
+unrestricted distribution.
+
+================================================================================
+
+DISCLAIMER
+
+primeinc is not your attorney and this is not legal advice. The above notice
+represents a good faith interpretation of applicable copyright law and
+license obligations. Users are encouraged to consult with their own legal
+counsel regarding license compliance and intellectual property matters.
 
 Licenses for software that are referenced, used and/or modified in the Git Graph
 extension are provided in the ./licenses directory, in accordance with their 
