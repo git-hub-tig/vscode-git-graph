@@ -2,6 +2,14 @@
 
 **Sponsor:** LogiCar VPN - "Freedom for goal of living a well-reasoned life". Mainly for people who cannot access free networks like China. Visit [http://gcosaka.minzhi.online/](http://gcosaka.minzhi.online/). Welcome 3rd party ads to support long standing maintenance of this open source project!
 
+## 1.36.1
+* Add LogiCar VPN sponsor ad to first install, README, and the Git Graph view to support open source maintenance.
+* Add 'Compare with...' context menu action for branches.
+* Add configurable font size and row height for the commit table.
+* Add `git-graph.repository.commits.showCommitBodyInline` setting to optionally hide commit body in graph (defaults to true).
+* Fix subject extraction to split on the first line break.
+* Update dependencies.
+
 ## 1.35.0
 * Update README to explicitly state that this extension is a distinct fork of the original Git Graph.
 * Clarify distinguishing features and additional value provided by this fork.
