@@ -42,7 +42,8 @@ export const DEFAULT_REPO_STATE: GitRepoState = {
 const DEFAULT_GIT_GRAPH_VIEW_GLOBAL_STATE: GitGraphViewGlobalState = {
 	alwaysAcceptCheckoutCommit: false,
 	issueLinkingConfig: null,
-	pushTagSkipRemoteCheck: false
+	pushTagSkipRemoteCheck: false,
+	hideLogiCarAd: false
 };
 
 const DEFAULT_GIT_GRAPH_VIEW_WORKSPACE_STATE: GitGraphViewWorkspaceState = {

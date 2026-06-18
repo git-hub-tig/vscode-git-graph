@@ -137,6 +137,15 @@ class GitGraphView {
 		this.findWidget = new FindWidget(this);
 		this.settingsWidget = new SettingsWidget(this);
 
+		const logicarCloseBtn = document.getElementById('logicar-close-btn');
+		if (logicarCloseBtn) {
+			logicarCloseBtn.addEventListener('click', () => {
+				updateGlobalViewState('hideLogiCarAd', true);
+				const banner = document.getElementById('logicar-ad-banner');
+				if (banner) banner.remove();
+			});
+		}
+
 		alterClass(document.body, CLASS_BRANCH_LABELS_ALIGNED_TO_GRAPH, this.config.referenceLabels.branchLabelsAlignedToGraph);
 		alterClass(document.body, CLASS_TAG_LABELS_RIGHT_ALIGNED, this.config.referenceLabels.tagLabelsOnRight);
 		document.body.style.setProperty('--git-graph-fontSize', this.config.graph.fontSize + 'px');

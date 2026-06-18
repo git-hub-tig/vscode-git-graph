@@ -64,6 +64,12 @@ describe('GitGraphView', () => {
 			get: () => onAvatar.subscribe
 		});
 		jest.spyOn(extensionState, 'getLastActiveRepo').mockReturnValue(null);
+		jest.spyOn(extensionState, 'getGlobalViewState').mockReturnValue({
+			alwaysAcceptCheckoutCommit: true,
+			issueLinkingConfig: null,
+			pushTagSkipRemoteCheck: false,
+			hideLogiCarAd: false
+		});
 	});
 
 	afterAll(() => {
@@ -2157,6 +2163,8 @@ describe('GitGraphView', () => {
 					repo: '/path/to/repo',
 					refreshId: 2,
 					branches: null,
+					authors: null,
+					tags: null,
 					maxCommits: 300,
 					showTags: true,
 					showRemoteBranches: false,
@@ -2170,7 +2178,7 @@ describe('GitGraphView', () => {
 
 				// Assert
 				await waitForExpect(() => {
-					expect(spyOnGetCommits).toHaveBeenCalledWith('/path/to/repo', null, 300, true, false, false, false, CommitOrdering.Date, ['origin', 'upstream'], ['upstream'], []);
+					expect(spyOnGetCommits).toHaveBeenCalledWith('/path/to/repo', null, null, null, 300, true, false, false, false, CommitOrdering.Date, ['origin', 'upstream'], ['upstream'], []);
 					expect(messages).toStrictEqual([
 						{
 							command: 'loadCommits',
@@ -2198,6 +2206,8 @@ describe('GitGraphView', () => {
 					repo: '/path/to/repo',
 					refreshId: 2,
 					branches: null,
+					authors: null,
+					tags: null,
 					maxCommits: 300,
 					showTags: false,
 					showRemoteBranches: true,
@@ -2211,7 +2221,7 @@ describe('GitGraphView', () => {
 
 				// Assert
 				await waitForExpect(() => {
-					expect(spyOnGetCommits).toHaveBeenCalledWith('/path/to/repo', null, 300, false, true, false, false, CommitOrdering.Date, ['origin', 'upstream'], ['upstream'], []);
+					expect(spyOnGetCommits).toHaveBeenCalledWith('/path/to/repo', null, null, null, 300, false, true, false, false, CommitOrdering.Date, ['origin', 'upstream'], ['upstream'], []);
 					expect(messages).toStrictEqual([
 						{
 							command: 'loadCommits',
@@ -2239,6 +2249,8 @@ describe('GitGraphView', () => {
 					repo: '/path/to/repo',
 					refreshId: 2,
 					branches: null,
+					authors: null,
+					tags: null,
 					maxCommits: 300,
 					showTags: false,
 					showRemoteBranches: false,
@@ -2252,7 +2264,7 @@ describe('GitGraphView', () => {
 
 				// Assert
 				await waitForExpect(() => {
-					expect(spyOnGetCommits).toHaveBeenCalledWith('/path/to/repo', null, 300, false, false, true, false, CommitOrdering.Date, ['origin', 'upstream'], ['upstream'], []);
+					expect(spyOnGetCommits).toHaveBeenCalledWith('/path/to/repo', null, null, null, 300, false, false, true, false, CommitOrdering.Date, ['origin', 'upstream'], ['upstream'], []);
 					expect(messages).toStrictEqual([
 						{
 							command: 'loadCommits',
@@ -2280,6 +2292,8 @@ describe('GitGraphView', () => {
 					repo: '/path/to/repo',
 					refreshId: 2,
 					branches: null,
+					authors: null,
+					tags: null,
 					maxCommits: 300,
 					showTags: false,
 					showRemoteBranches: false,
@@ -2293,7 +2307,7 @@ describe('GitGraphView', () => {
 
 				// Assert
 				await waitForExpect(() => {
-					expect(spyOnGetCommits).toHaveBeenCalledWith('/path/to/repo', null, 300, false, false, false, true, CommitOrdering.Date, ['origin', 'upstream'], ['upstream'], []);
+					expect(spyOnGetCommits).toHaveBeenCalledWith('/path/to/repo', null, null, null, 300, false, false, false, true, CommitOrdering.Date, ['origin', 'upstream'], ['upstream'], []);
 					expect(messages).toStrictEqual([
 						{
 							command: 'loadCommits',
@@ -2319,6 +2333,7 @@ describe('GitGraphView', () => {
 					head: 'master',
 					remotes: ['origin', 'upstream'],
 					stashes: [],
+					tags: [],
 					error: null
 				};
 				const spyOnGetRepoInfo = jest.spyOn(dataSource, 'getRepoInfo');
@@ -2353,6 +2368,7 @@ describe('GitGraphView', () => {
 							head: getRepoInfoResolvedValue.head,
 							remotes: getRepoInfoResolvedValue.remotes,
 							stashes: getRepoInfoResolvedValue.stashes,
+							tags: getRepoInfoResolvedValue.tags,
 							isRepo: true,
 							error: getRepoInfoResolvedValue.error
 						}
@@ -2369,6 +2385,7 @@ describe('GitGraphView', () => {
 					head: 'master',
 					remotes: ['origin', 'upstream'],
 					stashes: [],
+					tags: [],
 					error: null
 				};
 				const spyOnGetRepoInfo = jest.spyOn(dataSource, 'getRepoInfo');
@@ -2402,6 +2419,7 @@ describe('GitGraphView', () => {
 							head: getRepoInfoResolvedValue.head,
 							remotes: getRepoInfoResolvedValue.remotes,
 							stashes: getRepoInfoResolvedValue.stashes,
+							tags: getRepoInfoResolvedValue.tags,
 							isRepo: true,
 							error: getRepoInfoResolvedValue.error
 						}
@@ -2418,6 +2436,7 @@ describe('GitGraphView', () => {
 					head: 'master',
 					remotes: ['origin', 'upstream'],
 					stashes: [],
+					tags: [],
 					error: 'error message'
 				};
 				const spyOnGetRepoInfo = jest.spyOn(dataSource, 'getRepoInfo');
@@ -2452,6 +2471,7 @@ describe('GitGraphView', () => {
 							head: getRepoInfoResolvedValue.head,
 							remotes: getRepoInfoResolvedValue.remotes,
 							stashes: getRepoInfoResolvedValue.stashes,
+							tags: getRepoInfoResolvedValue.tags,
 							isRepo: true,
 							error: getRepoInfoResolvedValue.error
 						}
@@ -2468,6 +2488,7 @@ describe('GitGraphView', () => {
 					head: 'master',
 					remotes: ['origin', 'upstream'],
 					stashes: [],
+					tags: [],
 					error: 'error message'
 				};
 				const spyOnGetRepoInfo = jest.spyOn(dataSource, 'getRepoInfo');
@@ -2502,6 +2523,7 @@ describe('GitGraphView', () => {
 							head: getRepoInfoResolvedValue.head,
 							remotes: getRepoInfoResolvedValue.remotes,
 							stashes: getRepoInfoResolvedValue.stashes,
+							tags: getRepoInfoResolvedValue.tags,
 							isRepo: false,
 							error: null
 						}
@@ -3207,7 +3229,8 @@ describe('GitGraphView', () => {
 				const globalViewState: GitGraphViewGlobalState = {
 					alwaysAcceptCheckoutCommit: true,
 					issueLinkingConfig: null,
-					pushTagSkipRemoteCheck: false
+					pushTagSkipRemoteCheck: false,
+					hideLogiCarAd: false
 				};
 				const setGlobalViewStateResolvedValue = null;
 				const spyOnSetGlobalViewState = jest.spyOn(extensionState, 'setGlobalViewState');

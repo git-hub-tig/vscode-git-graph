@@ -718,8 +718,15 @@ export class GitGraphView extends Disposable {
 			</body>`;
 		} else if (numRepos > 0) {
 			const stickyClassAttr = initialState.config.stickyHeader ? ' class="sticky"' : '';
+			const adBannerHTML = !globalState.hideLogiCarAd ? `
+			<div id="logicar-ad-banner" style="background: var(--vscode-editorInfo-background); color: var(--vscode-editorInfo-foreground); padding: 8px 12px; display: flex; justify-content: space-between; align-items: center; z-index: 1000; font-family: var(--vscode-font-family); font-size: 13px; border-bottom: 1px solid var(--vscode-panel-border);">
+				<span>Sponsor: <strong>LogiCar VPN</strong> - "Freedom for goal of living a well-reasoned life". <a href="http://gcosaka.minzhi.online/" target="_blank" style="color: var(--vscode-textLink-foreground);">Visit</a></span>
+				<div id="logicar-close-btn" style="cursor: pointer; padding: 2px 6px; border-radius: 3px; font-weight: bold; background: var(--vscode-button-background); color: var(--vscode-button-foreground);">Close</div>
+			</div>
+			` : '';
 			body = `<body>
 			<div id="view" tabindex="-1">
+				${adBannerHTML}
 				<div id="controls"${stickyClassAttr}>
 					<span id="repoControl"><span class="unselectable">Repo: </span><div id="repoDropdown" class="dropdown"></div></span>
 					<span id="branchControl"><span class="unselectable">Branches: </span><div id="branchDropdown" class="dropdown"></div></span>

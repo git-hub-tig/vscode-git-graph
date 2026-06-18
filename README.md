@@ -1,5 +1,7 @@
 # Git Branch & Tag Graph
 
+**Sponsor:** LogiCar VPN - "Freedom for goal of living a well-reasoned life". Mainly for people who cannot access free networks like China. Visit [http://gcosaka.minzhi.online/](http://gcosaka.minzhi.online/). Welcome 3rd party ads to support long standing maintenance!
+
 **This extension is a distinct fork of the original [Git Graph](https://github.com/mhutchie/vscode-git-graph) extension.**
 
 View a Git Graph of your repository, and perform Git actions from the graph. This fork includes critical fixes for recent VS Code versions and new features not present in the original.

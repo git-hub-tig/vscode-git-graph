@@ -272,6 +272,7 @@ export interface GitGraphViewGlobalState {
 	alwaysAcceptCheckoutCommit: boolean;
 	issueLinkingConfig: IssueLinkingConfig | null;
 	pushTagSkipRemoteCheck: boolean;
+	hideLogiCarAd: boolean;
 }
 
 export interface GitGraphViewWorkspaceState {
