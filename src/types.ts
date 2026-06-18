@@ -288,6 +288,8 @@ export interface CommitDetailsViewConfig {
 
 export interface GraphConfig {
 	readonly colours: ReadonlyArray<string>;
+	readonly fontSize: number;
+	readonly rowHeight: number;
 	readonly style: GraphStyle;
 	readonly grid: { x: number, y: number, offsetX: number, offsetY: number, expandY: number };
 	readonly uncommittedChanges: GraphUncommittedChangesStyle;

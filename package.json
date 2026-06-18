@@ -762,6 +762,20 @@
 					"default": "rounded",
 					"description": "Specifies the style of the graph."
 				},
+				"git-graph.graph.fontSize": {
+					"type": "integer",
+					"minimum": 8,
+					"maximum": 24,
+					"default": 13,
+					"description": "Specifies the font size (in pixels) of the text in the commit table."
+				},
+				"git-graph.graph.rowHeight": {
+					"type": "integer",
+					"minimum": 16,
+					"maximum": 48,
+					"default": 24,
+					"description": "Specifies the height (in pixels) of each row in the commit table."
+				},
 				"git-graph.graph.uncommittedChanges": {
 					"type": "string",
 					"enum": [

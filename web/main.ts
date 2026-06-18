@@ -9,7 +9,7 @@
 // The authenticity of host 'github.pie.apple.com (17.121.132.15)' can't be established.
 // ECDSA key fingerprint is SHA256:7ZIubzLSVVGGQ2BgrPF+QnkDYjuJ/xs754ZS8oAZ7QY.
 // This key is not known by any other names.
-// Are you sure you want to continue connecting (yes/no/[fingerprint])? 
+// Are you sure you want to continue connecting (yes/no/[fingerprint])?
 class GitGraphView {
 	private gitRepos: GG.GitRepoSet;
 	private gitBranches: ReadonlyArray<string> = [];
@@ -139,6 +139,8 @@ class GitGraphView {
 
 		alterClass(document.body, CLASS_BRANCH_LABELS_ALIGNED_TO_GRAPH, this.config.referenceLabels.branchLabelsAlignedToGraph);
 		alterClass(document.body, CLASS_TAG_LABELS_RIGHT_ALIGNED, this.config.referenceLabels.tagLabelsOnRight);
+		document.body.style.setProperty('--git-graph-fontSize', this.config.graph.fontSize + 'px');
+		document.body.style.setProperty('--git-graph-rowHeight', this.config.graph.rowHeight + 'px');
 
 		this.observeWindowSizeChanges();
 		this.observeWebviewStyleChanges();
