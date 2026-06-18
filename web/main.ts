@@ -1092,6 +1092,31 @@ class GitGraphView {
 				visible: visibility.checkout && this.gitBranchHead !== refName,
 				onClick: () => this.checkoutBranchAction(refName, null, null, target)
 			}, {
+				title: 'Compare with...',
+				visible: true,
+				onClick: () => {
+					const options = this.gitBranches.filter(b => b !== refName && !b.startsWith('remotes/')).map(b => ({ name: b, value: b }));
+					if (options.length === 0) {
+						dialog.showError('Compare Branch', 'No other local branches to compare with.', 'Close', null);
+						return;
+					}
+					dialog.showSelect('Select branch to compare <b><i>' + escapeHtml(refName) + '</i></b> with:', options[0].value, options, 'Compare', (compareBranch) => {
+						let refCommitIndex = this.commits.findIndex(c => c.heads.includes(refName));
+						let compareCommitIndex = this.commits.findIndex(c => c.heads.includes(compareBranch));
+						if (refCommitIndex > -1 && compareCommitIndex > -1) {
+							const commitElem = findCommitElemWithId(getCommitElems(), refCommitIndex);
+							const compareElem = findCommitElemWithId(getCommitElems(), compareCommitIndex);
+							if (commitElem && compareElem) {
+								this.loadCommitComparison(commitElem, compareElem);
+							} else {
+								dialog.showError('Compare Branch', 'Could not find the commits for the selected branches in the current view. Try loading more commits.', 'Close', null);
+							}
+						} else {
+							dialog.showError('Compare Branch', 'Could not find the commits for the selected branches in the current view. Try loading more commits.', 'Close', null);
+						}
+					}, target);
+				}
+			}, {
 				title: 'Rename Branch' + ELLIPSIS,
 				visible: visibility.rename,
 				onClick: () => {
