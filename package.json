@@ -1042,6 +1042,11 @@
 					"default": "date",
 					"markdownDescription": "Specifies the order of commits on the Git Graph View. See [git log](https://git-scm.com/docs/git-log#_commit_ordering) for more information on each order option. This can be overridden per repository via the Git Graph View's Column Header Context Menu."
 				},
+				"git-graph.repository.commits.showBodyInline": {
+					"type": "boolean",
+					"default": true,
+					"description": "Show the commit body alongside the subject in the Git Graph table. When disabled, only the commit subject (first line) is shown."
+				},
 				"git-graph.repository.commits.showSignatureStatus": {
 					"type": "boolean",
 					"default": false,
