@@ -914,15 +914,17 @@ class GitGraphView {
 
 		for (let i = 0; i < this.commits.length; i++) {
 			let commit = this.commits[i];
-			let subject = commit.message;
+			let subject = commit.message.split('\n')[0];
 			let body = '';
 
-			let splitMessage = commit.message.split('\n\n');
+			if (this.config.showCommitBodyInline) {
+				let splitMessage = commit.message.split('\n\n');
 
-			if (splitMessage.length > 1) {
-				subject = splitMessage[0];
-				splitMessage.shift();
-				body = splitMessage.join('\n\n');
+				if (splitMessage.length > 1) {
+					subject = splitMessage[0];
+					splitMessage.shift();
+					body = splitMessage.join('\n\n');
+				}
 			}
 
 			let message = '<span class="text">' + textFormatter.format(subject) + '</span>';

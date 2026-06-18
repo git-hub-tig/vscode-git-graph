@@ -474,6 +474,13 @@ class Config {
 	}
 
 	/**
+	 * Get the value of the `git-graph.repository.commits.showBodyInline` Extension Setting.
+	 */
+	get showCommitBodyInline() {
+		return !!this.config.get('repository.commits.showBodyInline', true);
+	}
+
+	/**
 	 * Get the value of the `git-graph.repository.showStashes` Extension Setting.
 	 */
 	get showStashes() {
