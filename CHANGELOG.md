@@ -2,6 +2,9 @@
 
 **Sponsor:** LogiCar VPN - "Freedom for goal of living a well-reasoned life". Break through the block in countries or regions like China mainland, Hong Kong, Russia, and Belarus with state-of-the-art encryption. Not only access Google/Gemini, but also AI models like ChatGPT and Claude AI. Visit [http://gcosaka.minzhi.online/](http://gcosaka.minzhi.online/). Welcome 3rd party ads to support long standing maintenance of this open source project!
 
+## [1.37.11] - 2026-06-19
+* Format changelog headers to comply with VS Code extension marketplace requirements for proper parsing.
+
 ## [1.37.10]
 * Ignore missing remote tag errors when deleting a remote tag to cleanly fallback to local cleanup.
 
