@@ -12,6 +12,7 @@ export class RepoFileWatcher {
 	private readonly repoChangeCallback: () => void;
 	private repo: string | null = null;
 	private fsWatcher: vscode.FileSystemWatcher | null = null;
+	private fsWatcherGit: vscode.FileSystemWatcher | null = null;
 	private refreshTimeout: NodeJS.Timer | null = null;
 	private muted: boolean = false;
 	private resumeAt: number = 0;
@@ -38,10 +39,16 @@ export class RepoFileWatcher {
 
 		this.repo = repo;
 		// Create a File System Watcher for all events within the specified repository
-		this.fsWatcher = vscode.workspace.createFileSystemWatcher(repo + '/**');
+		this.fsWatcher = vscode.workspace.createFileSystemWatcher(new vscode.RelativePattern(repo, '**'));
 		this.fsWatcher.onDidCreate(uri => this.refresh(uri));
 		this.fsWatcher.onDidChange(uri => this.refresh(uri));
 		this.fsWatcher.onDidDelete(uri => this.refresh(uri));
+
+		this.fsWatcherGit = vscode.workspace.createFileSystemWatcher(new vscode.RelativePattern(repo, '.git/**'));
+		this.fsWatcherGit.onDidCreate(uri => this.refresh(uri));
+		this.fsWatcherGit.onDidChange(uri => this.refresh(uri));
+		this.fsWatcherGit.onDidDelete(uri => this.refresh(uri));
+
 		this.logger.log('Started watching repo: ' + repo);
 	}
 
@@ -53,7 +60,10 @@ export class RepoFileWatcher {
 			// If there is an existing File System Watcher, stop it
 			this.fsWatcher.dispose();
 			this.fsWatcher = null;
-			this.logger.log('Stopped watching repo: ' + this.repo);
+		}
+		if (this.fsWatcherGit !== null) {
+			this.fsWatcherGit.dispose();
+			this.fsWatcherGit = null;
 		}
 		if (this.refreshTimeout !== null) {
 			// If a timeout is active, clear it
