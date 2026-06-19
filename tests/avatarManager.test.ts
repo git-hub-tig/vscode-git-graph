@@ -111,7 +111,7 @@ describe('AvatarManager', () => {
 			it('Should fetch a new avatar from GitHub (HTTPS Remote)', async () => {
 				// Setup
 				spyOnGetRemoteUrl.mockResolvedValueOnce('https://github.com/mhutchie/test-repo.git');
-				mockHttpsResponse(200, '{"author":{"avatar_url":"https://avatar-url"}}');
+				mockHttpsResponse(200, '{"author":{"avatar_url":"https://avatar-url/"}}');
 				mockHttpsResponse(200, 'binary-image-data');
 				mockWriteFile(null);
 				mockReadFile('binary-image-data');
@@ -152,7 +152,7 @@ describe('AvatarManager', () => {
 			it('Should fetch a new avatar from GitHub (SSH Remote)', async () => {
 				// Setup
 				spyOnGetRemoteUrl.mockResolvedValueOnce('git@github.com:mhutchie/test-repo.git');
-				mockHttpsResponse(200, '{"author":{"avatar_url":"https://avatar-url"}}');
+				mockHttpsResponse(200, '{"author":{"avatar_url":"https://avatar-url/"}}');
 				mockHttpsResponse(200, 'binary-image-data');
 				mockWriteFile(null);
 				mockReadFile('binary-image-data');
@@ -284,7 +284,7 @@ describe('AvatarManager', () => {
 			it('Should halt fetching the avatar when the GitHub avatar url request is unsuccessful', async () => {
 				// Setup
 				spyOnGetRemoteUrl.mockResolvedValueOnce('https://github.com/mhutchie/test-repo.git');
-				mockHttpsResponse(200, '{"author":{"avatar_url":"https://avatar-url"}}');
+				mockHttpsResponse(200, '{"author":{"avatar_url":"https://avatar-url/"}}');
 				mockHttpsResponse(404, '');
 
 				// Run
@@ -488,7 +488,7 @@ describe('AvatarManager', () => {
 			it('Should fetch a new avatar from GitLab (HTTPS Remote)', async () => {
 				// Setup
 				spyOnGetRemoteUrl.mockResolvedValueOnce('https://gitlab.com/mhutchie/test-repo.git');
-				mockHttpsResponse(200, '[{"avatar_url":"https://avatar-url"}]');
+				mockHttpsResponse(200, '[{"avatar_url":"https://avatar-url/"}]');
 				mockHttpsResponse(200, 'binary-image-data');
 				mockWriteFile(null);
 				mockReadFile('binary-image-data');
@@ -529,7 +529,7 @@ describe('AvatarManager', () => {
 			it('Should fetch a new avatar from GitLab (SSH Remote)', async () => {
 				// Setup
 				spyOnGetRemoteUrl.mockResolvedValueOnce('git@gitlab.com:mhutchie/test-repo.git');
-				mockHttpsResponse(200, '[{"avatar_url":"https://avatar-url"}]');
+				mockHttpsResponse(200, '[{"avatar_url":"https://avatar-url/"}]');
 				mockHttpsResponse(200, 'binary-image-data');
 				mockWriteFile(null);
 				mockReadFile('binary-image-data');
@@ -652,7 +652,7 @@ describe('AvatarManager', () => {
 			it('Should halt fetching the avatar when the GitLab avatar url request is unsuccessful', async () => {
 				// Setup
 				spyOnGetRemoteUrl.mockResolvedValueOnce('https://gitlab.com/mhutchie/test-repo.git');
-				mockHttpsResponse(200, '[{"avatar_url":"https://avatar-url"}]');
+				mockHttpsResponse(200, '[{"avatar_url":"https://avatar-url/"}]');
 				mockHttpsResponse(404, '');
 
 				// Run
