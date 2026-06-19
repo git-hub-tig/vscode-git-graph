@@ -1316,6 +1316,10 @@ export class DataSource extends Disposable {
 				resolve(UNABLE_TO_FIND_GIT_MSG);
 			} else {
 				const args = ['difftool', '--dir-diff'];
+				const config = getConfig(repo);
+				if (config.extDiffToolArgs && config.extDiffToolArgs.length > 0) {
+					args.push(...config.extDiffToolArgs);
+				}
 				if (isGui) {
 					args.push('-g');
 				}

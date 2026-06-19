@@ -1709,7 +1709,14 @@ class GitGraphView {
 				mostRecentTagsIndex = i;
 			}
 		}
-		const mostRecentTags = mostRecentTagsIndex > -1 ? this.commits[mostRecentTagsIndex].tags.map((tag: GG.GitCommitTag) => '"' + tag.name + '"') : [];
+		const mostRecentTagsRaw = mostRecentTagsIndex > -1 ? this.commits[mostRecentTagsIndex].tags.map((tag: GG.GitCommitTag) => tag.name) : [];
+		const mostRecentTags = mostRecentTagsRaw.map((tag) => '"' + tag + '"');
+		if (initialName === '' && mostRecentTagsRaw.length > 0) {
+			const match = mostRecentTagsRaw[0].match(/^(.*?)(\d+)$/);
+			if (match) {
+				initialName = match[1] + (parseInt(match[2]) + 1);
+			}
+		}
 
 		const inputs: DialogInput[] = [
 			{ type: DialogInputType.TextRef, name: 'Name', default: initialName, info: mostRecentTags.length > 0 ? 'The most recent tag' + (mostRecentTags.length > 1 ? 's' : '') + ' in the loaded commits ' + (mostRecentTags.length > 1 ? 'are' : 'is') + ' ' + formatCommaSeparatedList(mostRecentTags) + '.' : undefined },

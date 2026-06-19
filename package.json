@@ -997,6 +997,14 @@
 					"default": true,
 					"description": "Combine local and remote branch labels if they refer to the same branch, and are on the same commit."
 				},
+				"git-graph.repository.extDiffToolArgs": {
+					"type": "array",
+					"items": {
+						"type": "string"
+					},
+					"default": [],
+					"description": "Additional command line arguments to pass to the external directory diff tool (e.g. [\"--no-symlinks\"])."
+				},
 				"git-graph.repository.commits.fetchAvatars": {
 					"type": "boolean",
 					"default": false,

@@ -530,6 +530,13 @@ class Config {
 	}
 
 	/**
+	 * Get the value of the `git-graph.repository.extDiffToolArgs` Extension Setting.
+	 */
+	get extDiffToolArgs(): string[] {
+		return this.config.get<string[]>('repository.extDiffToolArgs', []);
+	}
+
+	/**
 	 * Get the value of the `git-graph.repositoryDropdownOrder` Extension Setting.
 	 */
 	get repoDropdownOrder(): RepoDropdownOrder {
