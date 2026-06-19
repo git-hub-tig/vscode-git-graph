@@ -789,9 +789,12 @@ export class DataSource extends Disposable {
 	public async deleteTag(repo: string, tagName: string, deleteOnRemote: string | null) {
 		if (deleteOnRemote !== null) {
 			let status = await this.runGitCommand(['push', deleteOnRemote, '--delete', tagName], repo);
-			if (status !== null) return status;
+			if (status !== null && !status.includes('remote ref does not exist')) return status;
+			await this._spawnGit(['update-ref', '-d', 'refs/remotes/' + deleteOnRemote + '/tags/' + tagName], repo, () => {}, true);
 		}
-		return this.runGitCommand(['tag', '-d', tagName], repo);
+		let status = await this.runGitCommand(['tag', '-d', tagName], repo);
+		if (status !== null && status.includes('not found')) return null;
+		return status;
 	}
 
 
