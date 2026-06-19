@@ -1651,7 +1651,16 @@ export class DataSource extends Disposable {
 					refData.tags.push({ hash: hash, name: (annotated ? ref.substring(10, ref.length - 3) : ref.substring(10)), annotated: annotated });
 				} else if (ref.startsWith('refs/remotes/')) {
 					if (!hideRemotePatterns.some((pattern) => ref.startsWith(pattern)) && (showRemoteHeads || !ref.endsWith('/HEAD'))) {
-						refData.remotes.push({ hash: hash, name: ref.substring(13) });
+						let remoteRef = ref.substring(13);
+						let tagsIndex = remoteRef.indexOf('/tags/');
+						if (tagsIndex > -1) {
+							let annotated = remoteRef.endsWith('^{}');
+							let name = remoteRef.substring(0, tagsIndex) + '/' + remoteRef.substring(tagsIndex + 6);
+							if (annotated) name = name.substring(0, name.length - 3);
+							refData.tags.push({ hash: hash, name: name, annotated: annotated });
+						} else {
+							refData.remotes.push({ hash: hash, name: remoteRef });
+						}
 					}
 				} else if (ref === 'HEAD') {
 					refData.head = hash;
