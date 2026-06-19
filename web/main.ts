@@ -961,9 +961,25 @@ class GitGraphView {
 				refBranches += '<span class="gitRef remote" data-name="' + refName + '" data-remote="' + (branchLabels.remotes[j].remote !== null ? escapeHtml(branchLabels.remotes[j].remote!) : '') + '">' + SVG_ICONS.branch + '<span class="gitRefName" data-fullref="' + refName + '">' + refName + '</span></span>';
 			}
 
+			let tagMap: { [name: string]: { name: string, remotes: string[], annotated: boolean, local: boolean } } = {};
 			for (j = 0; j < commit.tags.length; j++) {
-				refName = escapeHtml(commit.tags[j].name);
-				refTags += '<span class="gitRef tag" data-name="' + refName + '" data-tagtype="' + (commit.tags[j].annotated ? 'annotated' : 'lightweight') + '">' + SVG_ICONS.tag + '<span class="gitRefName" data-fullref="' + refName + '">' + refName + '</span></span>';
+				let parts = commit.tags[j].name.split('/');
+				let tName = parts.length > 1 ? parts.slice(1).join('/') : parts[0];
+				let tRemote = parts.length > 1 ? parts[0] : null;
+				if (!tagMap[tName]) { tagMap[tName] = { name: tName, remotes: [], annotated: commit.tags[j].annotated, local: false }; }
+				if (tRemote) { tagMap[tName].remotes.push(tRemote); } else { tagMap[tName].local = true; }
+			}
+			for (let tName in tagMap) {
+				let tag = tagMap[tName];
+				let suffix = '';
+				if (!tag.local && tag.remotes.length > 0) {
+					suffix = ' | ' + tag.remotes.join(' ');
+				} else if (tag.local && tag.remotes.length > 0) {
+					suffix = ' | ' + tag.remotes.join(' ');
+				}
+				refName = escapeHtml(tag.name);
+				let displayStr = refName + escapeHtml(suffix);
+				refTags += '<span class="gitRef tag" data-name="' + refName + '" data-tagtype="' + (tag.annotated ? 'annotated' : 'lightweight') + '">' + SVG_ICONS.tag + '<span class="gitRefName" data-fullref="' + refName + '">' + displayStr + '</span></span>';
 			}
 
 			if (commit.stash !== null) {
