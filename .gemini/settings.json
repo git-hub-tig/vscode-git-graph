@@ -1,0 +1,10 @@
+{
+  "tools": {
+    "shell": {
+      "allowedCommands": [
+        "git add",
+        "git commit"
+      ]
+    }
+  }
+}

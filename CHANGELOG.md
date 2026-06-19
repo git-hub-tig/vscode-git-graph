@@ -2,6 +2,24 @@
 
 **Sponsor:** LogiCar VPN - "Freedom for goal of living a well-reasoned life". Break through the block in countries or regions like China mainland, Hong Kong, Russia, and Belarus with state-of-the-art encryption. Not only access Google/Gemini, but also AI models like ChatGPT and Claude AI. Visit [http://gcosaka.minzhi.online/](http://gcosaka.minzhi.online/). Welcome 3rd party ads to support long standing maintenance of this open source project!
 
+## 1.37.10
+* Ignore missing remote tag errors when deleting a remote tag to cleanly fallback to local cleanup.
+
+## 1.37.9
+* Apply gitRefHeadRemote styling to remote tags to match remote branches visually.
+
+## 1.37.8
+* Fix inline body rendering issue caused by carriage return parsing across different OS environments.
+
+## 1.37.7
+* Set `showBodyInline` to false by default and ensure full title rendering without ellipsis when enabled.
+
+## 1.37.6
+* Visually combine local and remote tags into a single label.
+
+## 1.37.5
+* Track remote tags properly locally by auto adding refspec.
+
 ## 1.37.4
 * Implement tag auto-increment and external diff tool custom args (issues #20, #15).
 * Parse remote tags explicitly to display origin in tag name (issue #24).
