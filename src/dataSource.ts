@@ -134,6 +134,18 @@ export class DataSource extends Disposable {
 	 * @param hideRemotes An array of hidden remotes.
 	 * @returns The repositories information.
 	 */
+	public async trackRemoteTags(repo: string): Promise<void> {
+		try {
+			const remotes = await this.getRemotes(repo);
+			await Promise.all(remotes.map(async (remote) => {
+				const fetchConfigs = await this._spawnGit(["config", "--get-all", "remote." + remote + ".fetch"], repo, stdout => stdout, true);
+				if (!fetchConfigs.includes("refs/remotes/" + remote + "/tags/*")) {
+					await this._spawnGit(["config", "--add", "remote." + remote + ".fetch", "+refs/tags/*:refs/remotes/" + remote + "/tags/*"], repo, () => {}, true);
+				}
+			}));
+		} catch (e) {}
+	}
+
 	public getRepoInfo(repo: string, showRemoteBranches: boolean, showStashes: boolean, hideRemotes: ReadonlyArray<string>): Promise<GitRepoInfo> {
 		return Promise.all([
 			this.getBranches(repo, showRemoteBranches, hideRemotes),
