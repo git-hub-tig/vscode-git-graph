@@ -231,7 +231,7 @@ code{
 	margin-right:1em;
 }
 
-#commitTable tr.commit span.description .text.commitbody{
+#commitTable tr.commit span.description .commitbody{
 	opacity: 0.5;
 }
 

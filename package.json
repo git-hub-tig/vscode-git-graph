@@ -1,7 +1,7 @@
 {
 	"name": "git-graph-3",
 	"displayName": "Git Branch & Tag Graph",
-	"version": "1.37.6",
+	"version": "1.37.7",
 	"publisher": "Gxl",
 	"engine": {
 		"node": "18.17.1"
@@ -1052,7 +1052,7 @@
 				},
 				"git-graph.repository.commits.showBodyInline": {
 					"type": "boolean",
-					"default": true,
+					"default": false,
 					"description": "Show the commit body alongside the subject in the Git Graph table. When disabled, only the commit subject (first line) is shown."
 				},
 				"git-graph.repository.commits.showSignatureStatus": {

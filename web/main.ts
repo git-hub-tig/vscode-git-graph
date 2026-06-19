@@ -926,20 +926,21 @@ class GitGraphView {
 			let subject = commit.message.split('\n')[0];
 			let body = '';
 
-			if (this.config.showCommitBodyInline) {
-				let splitMessage = commit.message.split('\n\n');
+			if (this.config.showBodyInline) {
+				let splitMessage = commit.message.split('\n');
 
 				if (splitMessage.length > 1) {
 					subject = splitMessage[0];
 					splitMessage.shift();
-					body = splitMessage.join('\n\n');
+					body = splitMessage.join(' ');
 				}
 			}
 
-			let message = '<span class="text">' + textFormatter.format(subject) + '</span>';
+			let message = '<span class="text">' + textFormatter.format(subject);
 			if (body !== '' && this.config.showBodyInline) {
-				message += '<span class="text commitbody">' + textFormatter.format(body) + '</span>';
+				message += ' <span class="commitbody">' + textFormatter.format(body) + '</span>';
 			}
+			message += '</span>';
 			let date = formatShortDate(commit.date);
 			let branchLabels = getBranchLabels(commit.heads, commit.remotes);
 			let refBranches = '', refTags = '', j, k, refName, remoteName, refActive, refHtml, branchCheckedOutAtCommit: string | null = null;
