@@ -129,15 +129,7 @@ export function encodeDiffDocUri(repo: string, filePath: string, commit: string,
 		exists: !fileDoesNotExist
 	};
 
-	let extension: string;
-	if (fileDoesNotExist) {
-		extension = '';
-	} else {
-		const extIndex = data.filePath.indexOf('.', data.filePath.lastIndexOf('/') + 1);
-		extension = extIndex > -1 ? data.filePath.substring(extIndex) : '';
-	}
-
-	return vscode.Uri.file('file' + extension).with({
+	return vscode.Uri.file(data.filePath + (fileDoesNotExist ? ' (non-existent)' : '')).with({
 		scheme: DiffDocProvider.scheme,
 		query: Buffer.from(JSON.stringify(data)).toString('base64')
 	});
