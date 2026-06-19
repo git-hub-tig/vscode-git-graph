@@ -138,9 +138,9 @@ export class DataSource extends Disposable {
 		try {
 			const remotes = await this.getRemotes(repo);
 			await Promise.all(remotes.map(async (remote) => {
-				const fetchConfigs = await this._spawnGit(["config", "--get-all", "remote." + remote + ".fetch"], repo, stdout => stdout, true);
-				if (!fetchConfigs.includes("refs/remotes/" + remote + "/tags/*")) {
-					await this._spawnGit(["config", "--add", "remote." + remote + ".fetch", "+refs/tags/*:refs/remotes/" + remote + "/tags/*"], repo, () => {}, true);
+				const fetchConfigs = await this._spawnGit(['config', '--get-all', 'remote.' + remote + '.fetch'], repo, stdout => stdout, true);
+				if (!fetchConfigs.includes('refs/remotes/' + remote + '/tags/*')) {
+					await this._spawnGit(['config', '--add', 'remote.' + remote + '.fetch', '+refs/tags/*:refs/remotes/' + remote + '/tags/*'], repo, () => {}, true);
 				}
 			}));
 		} catch (e) {}
