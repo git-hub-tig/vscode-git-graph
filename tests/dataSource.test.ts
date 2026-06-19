@@ -4734,6 +4734,7 @@ describe('DataSource', () => {
 			// Setup
 			mockGitSuccessOnce();
 			mockGitSuccessOnce();
+			mockGitSuccessOnce();
 
 			// Run
 			const result = await dataSource.deleteTag('/path/to/repo', 'tag-name', 'origin');
@@ -4741,6 +4742,7 @@ describe('DataSource', () => {
 			// Assert
 			expect(result).toBe(null);
 			expect(spyOnSpawn).toBeCalledWith('/path/to/git', ['push', 'origin', '--delete', 'tag-name'], expect.objectContaining({ cwd: '/path/to/repo' }));
+			expect(spyOnSpawn).toBeCalledWith('/path/to/git', ['update-ref', '-d', 'refs/remotes/origin/tags/tag-name'], expect.objectContaining({ cwd: '/path/to/repo' }));
 			expect(spyOnSpawn).toBeCalledWith('/path/to/git', ['tag', '-d', 'tag-name'], expect.objectContaining({ cwd: '/path/to/repo' }));
 		});
 
