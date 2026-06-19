@@ -2,40 +2,40 @@
 
 **Sponsor:** LogiCar VPN - "Freedom for goal of living a well-reasoned life". Break through the block in countries or regions like China mainland, Hong Kong, Russia, and Belarus with state-of-the-art encryption. Not only access Google/Gemini, but also AI models like ChatGPT and Claude AI. Visit [http://gcosaka.minzhi.online/](http://gcosaka.minzhi.online/). Welcome 3rd party ads to support long standing maintenance of this open source project!
 
-## 1.37.10
+## [1.37.10]
 * Ignore missing remote tag errors when deleting a remote tag to cleanly fallback to local cleanup.
 
-## 1.37.9
+## [1.37.9]
 * Apply gitRefHeadRemote styling to remote tags to match remote branches visually.
 
-## 1.37.8
+## [1.37.8]
 * Fix inline body rendering issue caused by carriage return parsing across different OS environments.
 
-## 1.37.7
+## [1.37.7]
 * Set `showBodyInline` to false by default and ensure full title rendering without ellipsis when enabled.
 
-## 1.37.6
+## [1.37.6]
 * Visually combine local and remote tags into a single label.
 
-## 1.37.5
+## [1.37.5]
 * Track remote tags properly locally by auto adding refspec.
 
-## 1.37.4
+## [1.37.4]
 * Implement tag auto-increment and external diff tool custom args (issues #20, #15).
 * Parse remote tags explicitly to display origin in tag name (issue #24).
 
-## 1.37.1
+## [1.37.1]
 * Ensure all branch fixes are successfully merged and tracked.
 
-## 1.37.0
+## [1.37.0]
 * Consolidate multiple issue fixes (issues 7, 12, 16, 19, 30, 33).
 * Update git log formatting to support complex commit messages safely.
 * Fix avatar and diff extension logic.
 
-## 1.36.2
+## [1.36.2]
 * Update LogiCar VPN sponsor information to highlight state-of-the-art encryption, ability to bypass blocks in specific regions, and support for accessing AI models.
 
-## 1.36.1
+## [1.36.1]
 * Add LogiCar VPN sponsor ad to first install, README, and the Git Graph view to support open source maintenance.
 * Add 'Compare with...' context menu action for branches.
 * Add configurable font size and row height for the commit table.
@@ -43,12 +43,12 @@
 * Fix subject extraction to split on the first line break.
 * Update dependencies.
 
-## 1.35.0
+## [1.35.0]
 * Update README to explicitly state that this extension is a distinct fork of the original Git Graph.
 * Clarify distinguishing features and additional value provided by this fork.
 * Update branding and description to differentiate from the original extension.
 
-## 1.34.0
+## [1.34.0]
 * Add a dropdown to filter by tags.
 * Update activationEvents to improve startup performance.
 * Add Find Widget to search for commits.
