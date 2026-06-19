@@ -945,7 +945,7 @@ describe('openExtensionSettings', () => {
 		const result = await openExtensionSettings();
 
 		// Assert
-		expect(vscode.commands.executeCommand).toHaveBeenCalledWith('workbench.action.openSettings', '@ext:git-hub-tig.git-graph-3');
+		expect(vscode.commands.executeCommand).toHaveBeenCalledWith('workbench.action.openSettings', '@ext:Gxl.git-graph-3');
 		expect(result).toBe(null);
 	});
 

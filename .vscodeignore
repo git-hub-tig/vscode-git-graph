@@ -16,4 +16,10 @@ web/
 .eslintrc.json
 .gitignore
 .nvmrc
-jest.config.js
+jest.config.jsfix-*.js
+skip-*.py
+.vscodeignore-temp
+fix-*.js
+skip-*.py
+.vscodeignore-temp
+*.js
