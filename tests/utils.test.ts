@@ -1549,7 +1549,7 @@ describe('viewFileAtRevision', () => {
 		// Assert
 		const [command, uri, config] = vscode.commands.executeCommand.mock.calls[0];
 		expect(command).toBe('vscode.open');
-		expect(uri.toString()).toBe(expectedValueGitGraphUri('subfolder/file.txt', '1a2b3c4d5e6f1a2b3c4d5e6f1a2b3c4d5e6f1a2b', '/path/to/repo', true).replace('file.txt', '1a2b3c4d: file.txt'));
+		expect(uri.toString()).toBe(expectedValueGitGraphUri('subfolder/file.txt', '1a2b3c4d5e6f1a2b3c4d5e6f1a2b3c4d5e6f1a2b', '/path/to/repo', true).replace('subfolder/file.txt', '1a2b3c4d: file.txt'));
 		expect(config).toStrictEqual({
 			preview: true,
 			viewColumn: vscode.ViewColumn.Active
@@ -2497,7 +2497,5 @@ describe('constructIncompatibleGitVersionMessage', () => {
 });
 
 function expectedValueGitGraphUri(filePath: string, commit: string, repo: string, exists: boolean) {
-	const extIndex = filePath.indexOf('.', filePath.lastIndexOf('/') + 1);
-	const extension = exists && extIndex > -1 ? filePath.substring(extIndex) : '';
-	return 'git-graph://file' + extension + '?' + Buffer.from(JSON.stringify({ filePath: filePath, commit: commit, repo: repo, exists: exists })).toString('base64');
+	return "git-graph://" + encodeURI(filePath) + (!exists ? ' (non-existent)' : '') + "?" + Buffer.from(JSON.stringify({ filePath: filePath, commit: commit, repo: repo, exists: exists })).toString("base64");
 }
