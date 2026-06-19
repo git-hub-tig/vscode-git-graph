@@ -343,7 +343,7 @@ export function createPullRequest(config: PullRequestConfig, sourceOwner: string
  * @returns A promise resolving to the ErrorInfo of the executed command.
  */
 export function openExtensionSettings(): Thenable<ErrorInfo> {
-	return vscode.commands.executeCommand('workbench.action.openSettings', '@ext:git-hub-tig.git-graph-3').then(
+	return vscode.commands.executeCommand('workbench.action.openSettings', '@ext:Gxl.git-graph-3').then(
 		() => null,
 		() => 'Visual Studio Code was unable to open the Git Graph Extension Settings.'
 	);
