@@ -41,7 +41,7 @@ export async function onStartUp(extensionContext: vscode.ExtensionContext) {
 
 		if (state === null) {
 			// Install
-			vscode.window.showInformationMessage('Sponsor: LogiCar VPN - "Freedom for goal of living a well-reasoned life". Mainly for people who cannot access free networks like China. Welcome 3rd party ads to support long standing maintenance!', 'Visit').then((res) => {
+			vscode.window.showInformationMessage('Sponsor: LogiCar VPN - "Freedom for goal of living a well-reasoned life". Break through the block in countries or regions like China mainland, Hong Kong, Russia, and Belarus with state-of-the-art encryption. Not only access Google/Gemini, but also AI models like ChatGPT and Claude AI. Welcome 3rd party ads to support long standing maintenance!', 'Visit').then((res) => {
 				if (res === 'Visit') {
 					vscode.env.openExternal(vscode.Uri.parse('http://gcosaka.minzhi.online/'));
 				}

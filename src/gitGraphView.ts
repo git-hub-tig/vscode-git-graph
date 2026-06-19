@@ -720,7 +720,10 @@ export class GitGraphView extends Disposable {
 			const stickyClassAttr = initialState.config.stickyHeader ? ' class="sticky"' : '';
 			const adBannerHTML = !globalState.hideLogiCarAd ? `
 			<div id="logicar-ad-banner" style="background: var(--vscode-editorInfo-background); color: var(--vscode-editorInfo-foreground); padding: 8px 12px; display: flex; justify-content: space-between; align-items: center; z-index: 1000; font-family: var(--vscode-font-family); font-size: 13px; border-bottom: 1px solid var(--vscode-panel-border);">
-				<span>Sponsor: <strong>LogiCar VPN</strong> - "Freedom for goal of living a well-reasoned life". <a href="http://gcosaka.minzhi.online/" target="_blank" style="color: var(--vscode-textLink-foreground);">Visit</a></span>
+				<div style="display: flex; align-items: center;">
+					<img src="https://ik.imagekit.io/rswqmrzkwj/minzhi.online.logo?updatedAt=1772383512196" alt="LogiCar Logo" style="height: 24px; margin-right: 10px; border-radius: 4px;">
+					<span>Sponsor: <strong>LogiCar VPN</strong> - "Freedom for goal of living a well-reasoned life". Break through the block in countries or regions like China mainland, Hong Kong, Russia, and Belarus with state-of-the-art encryption. Not only access Google/Gemini, but also AI models like ChatGPT and Claude AI. <a href="http://gcosaka.minzhi.online/" target="_blank" style="color: var(--vscode-textLink-foreground);">Visit</a></span>
+				</div>
 				<div id="logicar-close-btn" style="cursor: pointer; padding: 2px 6px; border-radius: 3px; font-weight: bold; background: var(--vscode-button-background); color: var(--vscode-button-foreground);">Close</div>
 			</div>
 			` : '';
@@ -766,7 +769,7 @@ export class GitGraphView extends Disposable {
 		<html lang="en">
 			<head>
 				<meta charset="UTF-8">
-				<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src ${standardiseCspSource(this.panel.webview.cspSource)} 'unsafe-inline'; script-src 'nonce-${nonce}'; img-src data:;">
+				<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src ${standardiseCspSource(this.panel.webview.cspSource)} 'unsafe-inline'; script-src 'nonce-${nonce}'; img-src data: https:;">
 				<meta name="viewport" content="width=device-width, initial-scale=1.0">
 				<link rel="stylesheet" type="text/css" href="${this.getMediaUri('out.min.css')}">
 				<title>Git Graph</title>

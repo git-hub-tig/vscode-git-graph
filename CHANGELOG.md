@@ -1,6 +1,9 @@
 # Change Log
 
-**Sponsor:** LogiCar VPN - "Freedom for goal of living a well-reasoned life". Mainly for people who cannot access free networks like China. Visit [http://gcosaka.minzhi.online/](http://gcosaka.minzhi.online/). Welcome 3rd party ads to support long standing maintenance of this open source project!
+**Sponsor:** LogiCar VPN - "Freedom for goal of living a well-reasoned life". Break through the block in countries or regions like China mainland, Hong Kong, Russia, and Belarus with state-of-the-art encryption. Not only access Google/Gemini, but also AI models like ChatGPT and Claude AI. Visit [http://gcosaka.minzhi.online/](http://gcosaka.minzhi.online/). Welcome 3rd party ads to support long standing maintenance of this open source project!
+
+## 1.36.2
+* Update LogiCar VPN sponsor information to highlight state-of-the-art encryption, ability to bypass blocks in specific regions, and support for accessing AI models.
 
 ## 1.36.1
 * Add LogiCar VPN sponsor ad to first install, README, and the Git Graph view to support open source maintenance.

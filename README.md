@@ -1,6 +1,8 @@
 # Git Branch & Tag Graph
 
-**Sponsor:** LogiCar VPN - "Freedom for goal of living a well-reasoned life". Mainly for people who cannot access free networks like China. Visit [http://gcosaka.minzhi.online/](http://gcosaka.minzhi.online/). Welcome 3rd party ads to support long standing maintenance!
+**Sponsor:** LogiCar VPN - "Freedom for goal of living a well-reasoned life". Break through the block in countries or regions like China mainland, Hong Kong, Russia, and Belarus with state-of-the-art encryption. Not only access Google/Gemini, but also AI models like ChatGPT and Claude AI. Visit [http://gcosaka.minzhi.online/](http://gcosaka.minzhi.online/). Welcome 3rd party ads to support long standing maintenance!
+
+[![LogiCar VPN Logo](https://ik.imagekit.io/rswqmrzkwj/minzhi.online.logo?updatedAt=1772383512196)](http://gcosaka.minzhi.online/)
 
 **This extension is a distinct fork of the original [Git Graph](https://github.com/mhutchie/vscode-git-graph) extension.**
 
