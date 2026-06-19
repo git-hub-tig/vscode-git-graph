@@ -3743,7 +3743,7 @@ describe('DataSource', () => {
 
 			// Assert
 			expect(result.toString()).toBe('File contents.\n');
-			expect(spyOnSpawn).toBeCalledWith('/path/to/git', ['show', '1a2b3c4d5e6f1a2b3c4d5e6f1a2b3c4d5e6f1a2b:subdirectory/file.txt'], expect.objectContaining({ cwd: '/path/to/repo' }));
+			expect(spyOnSpawn).toBeCalledWith('/path/to/git', ['show', '--textconv', '1a2b3c4d5e6f1a2b3c4d5e6f1a2b3c4d5e6f1a2b:subdirectory/file.txt'], expect.objectContaining({ cwd: '/path/to/repo' }));
 			expect(vscode.workspace.getConfiguration).toHaveBeenCalledWith('git-graph', {
 				scheme: 'file',
 				authority: '',
@@ -3765,7 +3765,7 @@ describe('DataSource', () => {
 
 			// Assert
 			expect(result.toString()).toBe('File contents.\n');
-			expect(spyOnSpawn).toBeCalledWith('/path/to/git', ['show', '1a2b3c4d5e6f1a2b3c4d5e6f1a2b3c4d5e6f1a2b:subdirectory/file.txt'], expect.objectContaining({ cwd: '/path/to/repo' }));
+			expect(spyOnSpawn).toBeCalledWith('/path/to/git', ['show', '--textconv', '1a2b3c4d5e6f1a2b3c4d5e6f1a2b3c4d5e6f1a2b:subdirectory/file.txt'], expect.objectContaining({ cwd: '/path/to/repo' }));
 			expect(vscode.workspace.getConfiguration).toHaveBeenCalledWith('git-graph', {
 				scheme: 'file',
 				authority: '',
@@ -3786,7 +3786,7 @@ describe('DataSource', () => {
 
 			// Assert
 			expect(errorMessage).toBe('error message');
-			expect(spyOnSpawn).toBeCalledWith('/path/to/git', ['show', '1a2b3c4d5e6f1a2b3c4d5e6f1a2b3c4d5e6f1a2b:subdirectory/file.txt'], expect.objectContaining({ cwd: '/path/to/repo' }));
+			expect(spyOnSpawn).toBeCalledWith('/path/to/git', ['show', '--textconv', '1a2b3c4d5e6f1a2b3c4d5e6f1a2b3c4d5e6f1a2b:subdirectory/file.txt'], expect.objectContaining({ cwd: '/path/to/repo' }));
 		});
 	});
 

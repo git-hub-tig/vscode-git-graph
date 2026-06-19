@@ -269,3 +269,7 @@ export function mockVscodeVersion(newVersion: string) {
 export function getMockedWebviewPanel(i: number) {
 	return mockedWebviews[i];
 }
+
+export class RelativePattern {
+	constructor(public base: string, public pattern: string) {}
+}

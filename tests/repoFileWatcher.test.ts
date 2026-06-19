@@ -41,7 +41,7 @@ describe('RepoFileWatcher', () => {
 		jest.runOnlyPendingTimers();
 
 		// Assert
-		expect(vscode.workspace.createFileSystemWatcher).toHaveBeenCalledWith('/path/to/repo/**');
+		expect(vscode.workspace.createFileSystemWatcher).toHaveBeenCalledWith(new vscode.RelativePattern('/path/to/repo', '**'));
 		expect(callback).toHaveBeenCalledTimes(1);
 	});
 

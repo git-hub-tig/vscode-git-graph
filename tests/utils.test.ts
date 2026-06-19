@@ -2497,5 +2497,5 @@ describe('constructIncompatibleGitVersionMessage', () => {
 });
 
 function expectedValueGitGraphUri(filePath: string, commit: string, repo: string, exists: boolean) {
-	return "git-graph://" + encodeURI(filePath) + (!exists ? ' (non-existent)' : '') + "?" + Buffer.from(JSON.stringify({ filePath: filePath, commit: commit, repo: repo, exists: exists })).toString("base64");
+	return 'git-graph://' + encodeURI(filePath) + (!exists ? ' (non-existent)' : '') + '?' + Buffer.from(JSON.stringify({ filePath: filePath, commit: commit, repo: repo, exists: exists })).toString('base64');
 }

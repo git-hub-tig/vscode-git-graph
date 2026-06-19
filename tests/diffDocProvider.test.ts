@@ -155,7 +155,7 @@ describe('encodeDiffDocUri', () => {
 
 		// Assert
 		expect(uri.scheme).toBe('git-graph');
-		expect(uri.fsPath).toBe('file');
+		expect(uri.fsPath).toBe('path/to/file.txt (non-existent)');
 		expect(uri.query).toBe('eyJmaWxlUGF0aCI6InBhdGgvdG8vZmlsZS50eHQiLCJjb21taXQiOiIxYTJiM2M0ZDVlNmYxYTJiM2M0ZDVlNmYxYTJiM2M0ZDVlNmYxYTJiIiwicmVwbyI6Ii9yZXBvIiwiZXhpc3RzIjpmYWxzZX0=');
 	});
 
@@ -165,7 +165,7 @@ describe('encodeDiffDocUri', () => {
 
 		// Assert
 		expect(uri.scheme).toBe('git-graph');
-		expect(uri.fsPath).toBe('file');
+		expect(uri.fsPath).toBe('path/to/file.txt (non-existent)');
 		expect(uri.query).toBe('eyJmaWxlUGF0aCI6InBhdGgvdG8vZmlsZS50eHQiLCJjb21taXQiOiIxYTJiM2M0ZDVlNmYxYTJiM2M0ZDVlNmYxYTJiM2M0ZDVlNmYxYTJiIiwicmVwbyI6Ii9yZXBvIiwiZXhpc3RzIjpmYWxzZX0=');
 	});
 
@@ -175,7 +175,7 @@ describe('encodeDiffDocUri', () => {
 
 		// Assert
 		expect(uri.scheme).toBe('git-graph');
-		expect(uri.fsPath).toBe('file.txt');
+		expect(uri.fsPath).toBe('path/to/file.txt');
 		expect(uri.query).toBe('eyJmaWxlUGF0aCI6InBhdGgvdG8vZmlsZS50eHQiLCJjb21taXQiOiIxYTJiM2M0ZDVlNmYxYTJiM2M0ZDVlNmYxYTJiM2M0ZDVlNmYxYTJiIiwicmVwbyI6Ii9yZXBvIiwiZXhpc3RzIjp0cnVlfQ==');
 	});
 
@@ -185,7 +185,7 @@ describe('encodeDiffDocUri', () => {
 
 		// Assert
 		expect(uri.scheme).toBe('git-graph');
-		expect(uri.fsPath).toBe('file');
+		expect(uri.fsPath).toBe('path/to/file');
 		expect(uri.query).toBe('eyJmaWxlUGF0aCI6InBhdGgvdG8vZmlsZSIsImNvbW1pdCI6IjFhMmIzYzRkNWU2ZjFhMmIzYzRkNWU2ZjFhMmIzYzRkNWU2ZjFhMmIiLCJyZXBvIjoiL3JlcG8iLCJleGlzdHMiOnRydWV9');
 	});
 });
