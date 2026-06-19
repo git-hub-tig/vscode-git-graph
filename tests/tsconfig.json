@@ -1,5 +1,6 @@
 {
 	"compilerOptions": {
+		"outDir": "../out/tests",
 		"declaration": true,
 		"lib": [
 			"es6"
