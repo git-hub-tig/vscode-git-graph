@@ -923,16 +923,16 @@ class GitGraphView {
 
 		for (let i = 0; i < this.commits.length; i++) {
 			let commit = this.commits[i];
-			let subject = commit.message.split('\n')[0];
+			let subject = commit.message.split(/\r?\n/)[0];
 			let body = '';
 
 			if (this.config.showBodyInline) {
-				let splitMessage = commit.message.split('\n');
+				let splitMessage = commit.message.split(/\r?\n/);
 
 				if (splitMessage.length > 1) {
 					subject = splitMessage[0];
 					splitMessage.shift();
-					body = splitMessage.join(' ');
+					body = splitMessage.join(' ').replace(/\s+/g, ' ').trim();
 				}
 			}
 
@@ -972,15 +972,14 @@ class GitGraphView {
 			}
 			for (let tName in tagMap) {
 				let tag = tagMap[tName];
-				let suffix = '';
-				if (!tag.local && tag.remotes.length > 0) {
-					suffix = ' | ' + tag.remotes.join(' ');
-				} else if (tag.local && tag.remotes.length > 0) {
-					suffix = ' | ' + tag.remotes.join(' ');
-				}
 				refName = escapeHtml(tag.name);
-				let displayStr = refName + escapeHtml(suffix);
-				refTags += '<span class="gitRef tag" data-name="' + refName + '" data-tagtype="' + (tag.annotated ? 'annotated' : 'lightweight') + '">' + SVG_ICONS.tag + '<span class="gitRefName" data-fullref="' + refName + '">' + displayStr + '</span></span>';
+				let refHtml = '<span class="gitRef tag" data-name="' + refName + '" data-tagtype="' + (tag.annotated ? 'annotated' : 'lightweight') + '">' + SVG_ICONS.tag + '<span class="gitRefName" data-fullref="' + refName + '">' + refName + '</span>';
+				for (k = 0; k < tag.remotes.length; k++) {
+					remoteName = escapeHtml(tag.remotes[k]);
+					refHtml += '<span class="gitRefHeadRemote" data-remote="' + remoteName + '" data-fullref="' + escapeHtml(tag.remotes[k] + '/tags/' + tag.name) + '">' + remoteName + '</span>';
+				}
+				refHtml += '</span>';
+				refTags += refHtml;
 			}
 
 			if (commit.stash !== null) {
