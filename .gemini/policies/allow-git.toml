@@ -1,0 +1,5 @@
+[[rule]]
+toolName = "run_shell_command"
+commandPrefix = ["git add", "git commit"]
+decision = "allow"
+priority = 100
