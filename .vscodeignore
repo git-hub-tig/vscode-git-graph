@@ -7,9 +7,13 @@ out/**/*.js.map
 out/*.d.ts
 out/*.js.map
 resources/demo.gif
+resources/icon.*.png
+resources/icon.old.png
+resources/icon.bad.png
 src/
 tests/
 web/
 .eslintrc.json
 .gitignore
+.nvmrc
 jest.config.js
