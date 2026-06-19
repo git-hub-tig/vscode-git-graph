@@ -1047,3 +1047,6 @@ label > input[type=radio]:checked ~ .customRadio:after{
 	-webkit-user-select:none;
 	user-select:none;
 }
+body.tagLabelsRightAligned .tagsWrapper {
+	margin-left: auto;
+}
