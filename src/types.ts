@@ -312,6 +312,7 @@ export type LoadGitGraphViewTo = {
 		readonly commitHash: string,
 		readonly compareWithHash: string | null
 	},
+	readonly findCommitHash?: string,
 	readonly runCommandOnLoad?: 'fetch'
 } | null;
 

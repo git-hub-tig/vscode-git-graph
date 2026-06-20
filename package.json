@@ -1,7 +1,7 @@
 {
 	"name": "git-graph-3",
 	"displayName": "Git Branch & Tag Graph",
-	"version": "1.37.12",
+	"version": "1.37.13",
 	"publisher": "Gxl",
 	"engine": {
 		"node": "18.17.1"
@@ -41,6 +41,7 @@
 	"activationEvents": [
 		"onCommand:git-graph.view",
 		"onCommand:git-graph.version",
+		"onCommand:git-graph.searchCommits",
 		"workspaceContains:.git"
 	],
 	"main": "./out/extension.js",
@@ -94,6 +95,11 @@
 				"category": "Git Graph",
 				"command": "git-graph.version",
 				"title": "Get Version Information"
+			},
+			{
+				"category": "Git Graph",
+				"command": "git-graph.searchCommits",
+				"title": "Search Commits in History..."
 			},
 			{
 				"category": "Git Graph",

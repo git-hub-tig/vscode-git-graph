@@ -55,6 +55,9 @@ export class CommandManager extends Disposable {
 		this.registerCommand('git-graph.endSpecificWorkspaceCodeReview', () => this.endSpecificWorkspaceCodeReview());
 		this.registerCommand('git-graph.resumeWorkspaceCodeReview', () => this.resumeWorkspaceCodeReview());
 		this.registerCommand('git-graph.version', () => this.version());
+		this.registerCommand('git-graph.searchCommits', () => this.searchCommits());
+		this.registerCommand('git-graph.searchCommits', () => this.searchCommits());
+		this.registerCommand('git-graph.searchCommits', () => this.searchCommits());
 		this.registerCommand('git-graph.openFile', (arg) => this.openFile(arg));
 
 		this.registerDisposable(
@@ -307,6 +310,58 @@ export class CommandManager extends Disposable {
 	/**
 	 * The method run when the `git-graph.version` command is invoked.
 	 */
+	/**
+	 * The method run when the `git-graph.searchCommits` command is invoked.
+	 */
+	private async searchCommits() {
+		if (this.gitExecutable === null) {
+			showErrorMessage(UNABLE_TO_FIND_GIT_MSG);
+			return;
+		}
+		const repos = this.repoManager.getRepos();
+		const repoOptions = Object.keys(repos).sort();
+		if (repoOptions.length === 0) return;
+
+		let repo: string;
+		if (repoOptions.length === 1) {
+			repo = repoOptions[0];
+		} else {
+			const selectedRepo = await vscode.window.showQuickPick(repoOptions, { placeHolder: 'Select the repository to search in' });
+			if (!selectedRepo) return;
+			repo = selectedRepo;
+		}
+
+		const query = await vscode.window.showInputBox({
+			prompt: 'Search commit history by message, author, or hash (supports regex)',
+			placeHolder: 'Enter your search query'
+		});
+		if (typeof query !== 'string' || query.trim() === '') return;
+
+		try {
+			const commits = await this.dataSource.searchHistory(repo, query.trim());
+			if (commits.length === 0) {
+				vscode.window.showInformationMessage('No commits found matching the query.');
+				return;
+			}
+			const items = commits.map(c => ({
+				label: c.hash.substring(0, 8),
+				description: c.message,
+				detail: c.author + ' - ' + new Date(c.date * 1000).toLocaleString(),
+				commitHash: c.hash
+			}));
+			const selected = await vscode.window.showQuickPick(items, {
+				placeHolder: 'Select a commit to view in Git Graph',
+				matchOnDescription: true,
+				matchOnDetail: true
+			});
+			if (selected) {
+				GitGraphView.createOrShow(this.context.extensionPath, this.dataSource, this.extensionState, this.avatarManager, this.repoManager, this.logger, { repo: repo, findCommitHash: selected.commitHash });
+			}
+		} catch (err) {
+			showErrorMessage('Error searching commit history.');
+		}
+	}
+
 	private async version() {
 		try {
 			const gitGraphVersion = await getExtensionVersion(this.context);

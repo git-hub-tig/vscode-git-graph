@@ -486,7 +486,24 @@ class GitGraphView {
 
 	private finaliseRepoLoad(didLoadRepoData: boolean) {
 		if (this.loadViewTo !== null && this.currentRepo === this.loadViewTo.repo) {
-			if (this.loadViewTo.commitDetails && (this.expandedCommit === null || this.expandedCommit.commitHash !== this.loadViewTo.commitDetails.commitHash || this.expandedCommit.compareWithHash !== this.loadViewTo.commitDetails.compareWithHash)) {
+			if (this.loadViewTo.findCommitHash) {
+				const commitIndex = this.getCommitId(this.loadViewTo.findCommitHash);
+				if (commitIndex !== null) {
+					const commitElems = getCommitElems();
+					const commitElem = findCommitElemWithId(commitElems, commitIndex);
+					if (commitElem !== null) {
+						this.scrollToCommit(this.loadViewTo!.findCommitHash!, true, true);
+						this.loadCommitDetails(commitElem);
+					}
+					this.loadViewTo = null;
+				} else if (this.moreCommitsAvailable) {
+					this.loadMoreCommits();
+					return; // Wait for next load
+				} else {
+					showErrorMessage('Commit not found in this repository.');
+					this.loadViewTo = null;
+				}
+			} else if (this.loadViewTo.commitDetails && (this.expandedCommit === null || this.expandedCommit.commitHash !== this.loadViewTo.commitDetails.commitHash || this.expandedCommit.compareWithHash !== this.loadViewTo.commitDetails.compareWithHash)) {
 				const commitIndex = this.getCommitId(this.loadViewTo.commitDetails.commitHash);
 				const compareWithIndex = this.loadViewTo.commitDetails.compareWithHash !== null ? this.getCommitId(this.loadViewTo.commitDetails.compareWithHash) : null;
 				const commitElems = getCommitElems();

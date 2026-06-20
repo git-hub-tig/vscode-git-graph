@@ -146,6 +146,24 @@ export class DataSource extends Disposable {
 		} catch (e) {}
 	}
 
+	public searchHistory(repo: string, query: string): Promise<{hash: string, author: string, date: number, message: string}[]> {
+		const args = ['log', '--all', '-E', '-i', '--grep=' + query, '--format=%H|%an|%at|%s', '--max-count=100'];
+		return this.spawnGit(args, repo, (stdoutBuf) => {
+			const text = stdoutBuf.toString().replace(/\n$/, '');
+			if (!text) return [];
+			const lines = text.split('\n');
+			return lines.map(line => {
+				const parts = line.split('|');
+				return {
+					hash: parts[0],
+					author: parts[1],
+					date: parseInt(parts[2], 10),
+					message: parts.slice(3).join('|')
+				};
+			});
+		});
+	}
+
 	public getRepoInfo(repo: string, showRemoteBranches: boolean, showStashes: boolean, hideRemotes: ReadonlyArray<string>): Promise<GitRepoInfo> {
 		return Promise.all([
 			this.getBranches(repo, showRemoteBranches, hideRemotes),
