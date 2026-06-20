@@ -14,7 +14,8 @@ For any issues or advice, you can find the pull requests page [here](https://git
 ## Resources
 
 *   [Issues](https://github.com/git-hub-tig/vscode-git-graph/issues)
-*   [Marketplace](https://marketplace.visualstudio.com/items?itemName=Gxl.git-graph-3)
+*   [Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=Gxl.git-graph-3)
+*   [Open VSX Registry](https://open-vsx.org/extension/Gxl/git-graph-3) (A 2nd marketplace synced with the Visual Studio Marketplace, specifically for downloading the extension in editors or IDEs that support Open VSX extensions.)
 
 This version aims to address some of the long-standing issues and to keep up with the latest VSCode updates.
 
