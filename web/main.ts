@@ -1759,7 +1759,10 @@ class GitGraphView {
 				mostRecentTagsIndex = i;
 			}
 		}
-		const mostRecentTagsRaw = mostRecentTagsIndex > -1 ? this.commits[mostRecentTagsIndex].tags.map((tag: GG.GitCommitTag) => tag.name) : [];
+		const mostRecentTagsRaw = mostRecentTagsIndex > -1 ? this.commits[mostRecentTagsIndex].tags.map((tag: GG.GitCommitTag) => {
+			let parts = tag.name.split('/');
+			return parts.length > 1 ? parts.slice(1).join('/') : parts[0];
+		}) : [];
 		const mostRecentTags = mostRecentTagsRaw.map((tag) => '"' + tag + '"');
 		if (initialName === '' && mostRecentTagsRaw.length > 0) {
 			const match = mostRecentTagsRaw[0].match(/^(.*?)(\d+)$/);
@@ -1778,12 +1781,12 @@ class GitGraphView {
 			this.gitRemotes.forEach((remote, i) => options.push({ name: remote, value: i.toString() }));
 			const defaultOption = initialPushToRemote !== null
 				? this.gitRemotes.indexOf(initialPushToRemote)
-				: isInitialLoad && this.config.dialogDefaults.addTag.pushToRemote
+				: isInitialLoad
 					? this.gitRemotes.indexOf(this.getPushRemote())
 					: -1;
 			inputs.push({ type: DialogInputType.Select, name: 'Push to remote', options: options, default: defaultOption.toString(), info: 'Once this tag has been added, push it to this remote.' });
 		} else if (this.gitRemotes.length === 1) {
-			const defaultValue = initialPushToRemote !== null || (isInitialLoad && this.config.dialogDefaults.addTag.pushToRemote);
+			const defaultValue = initialPushToRemote !== null || isInitialLoad;
 			inputs.push({ type: DialogInputType.Checkbox, name: 'Push to remote', value: defaultValue, info: 'Once this tag has been added, push it to the repositories remote.' });
 		}
 
