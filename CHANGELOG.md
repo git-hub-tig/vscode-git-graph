@@ -2,6 +2,12 @@
 
 **Sponsor:** LogiCar VPN - "Freedom for goal of living a well-reasoned life". Break through the block in countries or regions like China mainland, Hong Kong, Russia, and Belarus with state-of-the-art encryption. Not only access Google/Gemini, but also AI models like ChatGPT and Claude AI. Visit [http://gcosaka.minzhi.online/](http://gcosaka.minzhi.online/). Welcome 3rd party ads to support long standing maintenance of this open source project!
 
+## [1.37.12] - 2026-06-20
+* Consolidate upstream context menu enhancements: "Edit Message", "Reset Last Commit (Soft)", "Create Branch", and "Pull Branch".
+* Fix commit/stash/tag message input fields to use textareas, preserving newlines in multi-line messages.
+* Fix tag auto-increment bug to correctly ignore remote prefixes.
+* Default "Push to remote" option in Add Tag dialog to the repository's default remote.
+
 ## [1.37.11] - 2026-06-19
 * Format changelog headers to comply with VS Code extension marketplace requirements for proper parsing.
 
