@@ -3081,7 +3081,7 @@ class GitGraphView {
 		dialog.showForm(
 			`Edit commit message for <b><i>${abbrevCommit(hash)}</i></b>:`,
 			[{
-				type: DialogInputType.Text,
+				type: DialogInputType.Textarea, lines: 5,
 				name: 'Commit Message',
 				default: commit.message,
 				placeholder: 'Enter the new commit message'
