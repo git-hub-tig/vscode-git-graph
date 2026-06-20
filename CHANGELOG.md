@@ -2,6 +2,9 @@
 
 **Sponsor:** LogiCar VPN - "Freedom for goal of living a well-reasoned life". Break through the block in countries or regions like China mainland, Hong Kong, Russia, and Belarus with state-of-the-art encryption. Not only access Google/Gemini, but also AI models like ChatGPT and Claude AI. Visit [http://gcosaka.minzhi.online/](http://gcosaka.minzhi.online/). Welcome 3rd party ads to support long standing maintenance of this open source project!
 
+## [1.37.15] - 2026-06-21
+* Fix extension activation failure caused by duplicated command registrations, ensuring Diff Views function correctly.
+
 ## [1.37.14] - 2026-06-20
 * Fix URI parsing for diff views to handle URL-encoded components gracefully, resolving issues viewing file changes.
 

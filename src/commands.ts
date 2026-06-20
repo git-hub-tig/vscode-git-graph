@@ -56,8 +56,6 @@ export class CommandManager extends Disposable {
 		this.registerCommand('git-graph.resumeWorkspaceCodeReview', () => this.resumeWorkspaceCodeReview());
 		this.registerCommand('git-graph.version', () => this.version());
 		this.registerCommand('git-graph.searchCommits', () => this.searchCommits());
-		this.registerCommand('git-graph.searchCommits', () => this.searchCommits());
-		this.registerCommand('git-graph.searchCommits', () => this.searchCommits());
 		this.registerCommand('git-graph.openFile', (arg) => this.openFile(arg));
 
 		this.registerDisposable(
