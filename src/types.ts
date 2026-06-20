@@ -1172,12 +1172,12 @@ export interface ResponseUndoLastCommit extends ResponseWithErrorInfo {
 }
 
 export interface RequestEditCommitMessage extends RepoRequest {
-	readonly command: íitCommitMessage';
+	readonly command: 'editCommitMessage';
 	readonly commitHash: string;
 	readonly message: string;
 }
 export interface ResponseEditCommitMessage extends ResponseWithErrorInfo {
-	readonly command: íitCommitMessage';
+	readonly command: 'editCommitMessage';
 }
 
 export interface RequestSetGlobalViewState extends BaseMessage {

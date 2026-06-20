@@ -560,6 +560,20 @@ export class GitGraphView extends Disposable {
 					error: await this.dataSource.revertCommit(msg.repo, msg.commitHash, msg.parentIndex)
 				});
 				break;
+			case 'editCommitMessage':
+				this.sendMessage({
+					command: 'editCommitMessage',
+					error: await this.dataSource.editCommitMessage(msg.repo, msg.commitHash, msg.message)
+				});
+				break;
+
+			case 'undoLastCommit':
+				this.sendMessage({
+					command: 'undoLastCommit',
+					error: await this.dataSource.undoLastCommit(msg.repo)
+				});
+				break;
+
 			case 'setGlobalViewState':
 				this.sendMessage({
 					command: 'setGlobalViewState',
