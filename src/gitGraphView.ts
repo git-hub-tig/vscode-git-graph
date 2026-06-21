@@ -147,7 +147,21 @@ export class GitGraphView extends Disposable {
 			this.panel.webview.onDidReceiveMessage((msg) => this.respondToMessage(msg)),
 
 			// Dispose the Webview Panel when disposed
-			this.panel
+			this.panel,
+
+			// Update the Git Graph View when the configuration changes
+			vscode.workspace.onDidChangeConfiguration((e) => {
+				if (e.affectsConfiguration('git-graph')) {
+					const config = getConfig();
+					this.panel.iconPath = config.tabIconColourTheme === TabIconColourTheme.Colour
+						? this.getResourcesUri('webview-icon.svg')
+						: {
+							light: this.getResourcesUri('webview-icon-light.svg'),
+							dark: this.getResourcesUri('webview-icon-dark.svg')
+						};
+					this.update();
+				}
+			})
 		);
 
 		// Instantiate a RepoFileWatcher that watches for file changes in the repository currently open in the Git Graph View
