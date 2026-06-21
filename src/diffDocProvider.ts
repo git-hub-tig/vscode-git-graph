@@ -2,7 +2,7 @@ import * as path from 'path';
 import * as vscode from 'vscode';
 import { DataSource } from './dataSource';
 import { GitFileStatus } from './types';
-import { UNCOMMITTED, getPathFromStr, showErrorMessage } from './utils';
+import { UNCOMMITTED, getPathFromStr } from './utils';
 import { Disposable, toDisposable } from './utils/disposable';
 
 export const enum DiffSide {
@@ -46,29 +46,31 @@ export class DiffDocProvider extends Disposable implements vscode.TextDocumentCo
 	 * @param uri The `git-graph://file.ext?encoded-data` URI.
 	 * @returns The content of the text document.
 	 */
-	public provideTextDocumentContent(uri: vscode.Uri): string | Thenable<string> {
-		const document = this.docs.get(uri.toString());
-		if (document) {
-			return document.value;
-		}
-
-		const request = decodeDiffDocUri(uri);
-		if (!request.exists) {
-			// Return empty file (used for one side of added / deleted file diff)
-			return '';
-		}
-
-		return this.dataSource.getCommitFile(request.repo, request.commit, request.filePath).then(
-			(contents) => {
-				const document = new DiffDocument(contents);
-				this.docs.set(uri.toString(), document);
+	public async provideTextDocumentContent(uri: vscode.Uri): Promise<string> {
+		try {
+			const document = this.docs.get(uri.toString());
+			if (document) {
 				return document.value;
-			},
-			(errorMessage) => {
-				showErrorMessage('Unable to retrieve file: ' + errorMessage);
+			}
+
+			const request = decodeDiffDocUri(uri);
+			if (!request.exists) {
 				return '';
 			}
-		);
+
+			return await this.dataSource.getCommitFile(request.repo, request.commit, request.filePath).then(
+				(contents) => {
+					const document = new DiffDocument(contents);
+					this.docs.set(uri.toString(), document);
+					return document.value;
+				},
+				(errorMessage) => {
+					return 'Unable to retrieve file: ' + errorMessage;
+				}
+			);
+		} catch (err) {
+			return `Error inside provideTextDocumentContent: ${err instanceof Error ? err.message : err}`;
+		}
 	}
 }
 
