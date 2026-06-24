@@ -41,11 +41,39 @@ export async function onStartUp(extensionContext: vscode.ExtensionContext) {
 
 		if (state === null) {
 			// Install
-			vscode.window.showInformationMessage('Sponsor: LogiCar VPN - "Freedom for goal of living a well-reasoned life". Break through the block in countries or regions like China mainland, Hong Kong, Russia, and Belarus with state-of-the-art encryption. Not only access Google/Gemini, but also AI models like ChatGPT and Claude AI. Welcome 3rd party ads to support long standing maintenance!', 'Visit').then((res) => {
-				if (res === 'Visit') {
-					vscode.env.openExternal(vscode.Uri.parse('http://gcosaka.minzhi.online/'));
+			const isAdRegion = (() => {
+				const lang = vscode.env.language.toLowerCase();
+				if (lang === 'zh-cn' || lang === 'zh-hk' || lang.startsWith('ru') || lang.startsWith('be')) {
+					return true;
 				}
-			});
+				try {
+					const tz = new Intl.DateTimeFormat().resolvedOptions().timeZone.toLowerCase();
+					const adTimeZones = [
+						'asia/shanghai', 'asia/chongqing', 'asia/urumqi', 'asia/hong_kong',
+						'europe/moscow', 'europe/minsk', 'asia/yekaterinburg', 'asia/omsk',
+						'asia/novosibirsk', 'asia/krasnoyarsk', 'asia/irkutsk', 'asia/yakutsk',
+						'asia/vladivostok', 'asia/magadan', 'asia/kamchatka', 'europe/kaliningrad',
+						'europe/samara', 'europe/volgograd', 'asia/srednekolymsk', 'asia/anadyr',
+						'asia/barnaul', 'asia/tomsk', 'asia/novokuznetsk', 'europe/astrakhan',
+						'europe/kirov', 'europe/saratov', 'europe/ulyanovsk', 'asia/chita',
+						'asia/khandyga', 'asia/ust-nera'
+					];
+					if (adTimeZones.includes(tz)) {
+						return true;
+					}
+				} catch (e) {
+					// Ignore
+				}
+				return false;
+			})();
+
+			if (isAdRegion) {
+				vscode.window.showInformationMessage('Sponsor: LogiCar VPN - "Freedom for goal of living a well-reasoned life". Break through the block in countries or regions like China mainland, Hong Kong, Russia, and Belarus with state-of-the-art encryption. Not only access Google/Gemini, but also AI models like ChatGPT and Claude AI. Welcome 3rd party ads to support long standing maintenance!', 'Visit').then((res) => {
+					if (res === 'Visit') {
+						vscode.env.openExternal(vscode.Uri.parse('http://gcosaka.minzhi.online/'));
+					}
+				});
+			}
 
 			state = {
 				previous: null,
