@@ -4720,7 +4720,10 @@ describe('DataSource', () => {
 	describe('deleteTag', () => {
 		it('Should delete a tag', async () => {
 			// Setup
-			mockGitSuccessOnce();
+			mockGitSuccessOnce(); // tag -d
+			mockGitSuccessOnce('origin\nupstream\n'); // remote
+			mockGitSuccessOnce(); // update-ref for origin
+			mockGitSuccessOnce(); // update-ref for upstream
 
 			// Run
 			const result = await dataSource.deleteTag('/path/to/repo', 'tag-name', null);
@@ -4728,13 +4731,18 @@ describe('DataSource', () => {
 			// Assert
 			expect(result).toBe(null);
 			expect(spyOnSpawn).toBeCalledWith('/path/to/git', ['tag', '-d', 'tag-name'], expect.objectContaining({ cwd: '/path/to/repo' }));
+			expect(spyOnSpawn).toBeCalledWith('/path/to/git', ['remote'], expect.objectContaining({ cwd: '/path/to/repo' }));
+			expect(spyOnSpawn).toBeCalledWith('/path/to/git', ['update-ref', '-d', 'refs/remotes/origin/tags/tag-name'], expect.objectContaining({ cwd: '/path/to/repo' }));
+			expect(spyOnSpawn).toBeCalledWith('/path/to/git', ['update-ref', '-d', 'refs/remotes/upstream/tags/tag-name'], expect.objectContaining({ cwd: '/path/to/repo' }));
 		});
 
 		it('Should delete a tag (also on a remote)', async () => {
 			// Setup
-			mockGitSuccessOnce();
-			mockGitSuccessOnce();
-			mockGitSuccessOnce();
+			mockGitSuccessOnce(); // push
+			mockGitSuccessOnce(); // update-ref for deleteOnRemote
+			mockGitSuccessOnce(); // tag -d
+			mockGitSuccessOnce('origin\nupstream\n'); // remote
+			mockGitSuccessOnce(); // update-ref for upstream
 
 			// Run
 			const result = await dataSource.deleteTag('/path/to/repo', 'tag-name', 'origin');
@@ -4744,11 +4752,15 @@ describe('DataSource', () => {
 			expect(spyOnSpawn).toBeCalledWith('/path/to/git', ['push', 'origin', '--delete', 'tag-name'], expect.objectContaining({ cwd: '/path/to/repo' }));
 			expect(spyOnSpawn).toBeCalledWith('/path/to/git', ['update-ref', '-d', 'refs/remotes/origin/tags/tag-name'], expect.objectContaining({ cwd: '/path/to/repo' }));
 			expect(spyOnSpawn).toBeCalledWith('/path/to/git', ['tag', '-d', 'tag-name'], expect.objectContaining({ cwd: '/path/to/repo' }));
+			expect(spyOnSpawn).toBeCalledWith('/path/to/git', ['remote'], expect.objectContaining({ cwd: '/path/to/repo' }));
+			expect(spyOnSpawn).toBeCalledWith('/path/to/git', ['update-ref', '-d', 'refs/remotes/upstream/tags/tag-name'], expect.objectContaining({ cwd: '/path/to/repo' }));
 		});
 
 		it('Should return an error message thrown by git (when deleting a tag)', async () => {
 			// Setup
-			mockGitThrowingErrorOnce();
+			mockGitThrowingErrorOnce(); // tag -d
+			mockGitSuccessOnce('origin\n'); // remote
+			mockGitSuccessOnce(); // update-ref
 
 			// Run
 			const result = await dataSource.deleteTag('/path/to/repo', 'tag-name', null);
@@ -4759,7 +4771,7 @@ describe('DataSource', () => {
 
 		it('Should return an error message thrown by git (when deleting a tag also on a remote)', async () => {
 			// Setup
-			mockGitThrowingErrorOnce();
+			mockGitThrowingErrorOnce(); // push
 
 			// Run
 			const result = await dataSource.deleteTag('/path/to/repo', 'tag-name', 'origin');

@@ -811,6 +811,14 @@ export class DataSource extends Disposable {
 			await this._spawnGit(['update-ref', '-d', 'refs/remotes/' + deleteOnRemote + '/tags/' + tagName], repo, () => {}, true);
 		}
 		let status = await this.runGitCommand(['tag', '-d', tagName], repo);
+
+		const remotes = await this.getRemotes(repo);
+		for (const remote of remotes) {
+			if (remote !== deleteOnRemote) {
+				await this._spawnGit(['update-ref', '-d', 'refs/remotes/' + remote + '/tags/' + tagName], repo, () => {}, true);
+			}
+		}
+
 		if (status !== null && status.includes('not found')) return null;
 		return status;
 	}
