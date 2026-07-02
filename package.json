@@ -1,7 +1,7 @@
 {
 	"name": "git-graph-3",
 	"displayName": "Git Branch & Tag Graph",
-	"version": "1.37.17",
+	"version": "1.37.18",
 	"publisher": "Gxl",
 	"engine": {
 		"node": "18.17.1"
