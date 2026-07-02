@@ -162,7 +162,12 @@ export class RepoManager extends Disposable {
 		}
 		this.checkReposForNewConfig();
 		await this.checkReposForNewSubmodules();
-		await Promise.all(Object.keys(this.repos).map(repo => this.dataSource.trackRemoteTags(repo)));
+		await Promise.all(Object.keys(this.repos).map(repo => {
+			if (getConfig(repo).trackRemoteTags) {
+				return this.dataSource.trackRemoteTags(repo);
+			}
+			return Promise.resolve();
+		}));
 		await this.searchWorkspaceForRepos();
 		this.startWatchingFolders();
 	}

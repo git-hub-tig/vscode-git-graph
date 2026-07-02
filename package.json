@@ -1083,6 +1083,11 @@
 					"default": false,
 					"description": "Before fetching from remote(s) using the Fetch button on the Git Graph View Control Bar, remove any remote-tracking references that no longer exist on the remote(s)."
 				},
+				"git-graph.repository.trackRemoteTags": {
+					"type": "boolean",
+					"default": false,
+					"description": "Automatically track remote tags locally by adding the refspec '+refs/tags/*:refs/remotes/<remote>/tags/*' to the repository's git config. Warning: This modifies the local repository git configuration."
+				},
 				"git-graph.repository.fetchAndPruneTags": {
 					"type": "boolean",
 					"default": false,

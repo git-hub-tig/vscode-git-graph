@@ -2637,6 +2637,8 @@ describe('Config', () => {
 
 	describe('fetchAndPruneTags', testBooleanExtensionSetting('fetchAndPruneTags', 'repository.fetchAndPruneTags', false));
 
+	describe('trackRemoteTags', testBooleanExtensionSetting('trackRemoteTags', 'repository.trackRemoteTags', false));
+
 	describe('includeCommitsMentionedByReflogs', testRenamedBooleanExtensionSetting('includeCommitsMentionedByReflogs', 'repository.includeCommitsMentionedByReflogs', 'includeCommitsMentionedByReflogs', false));
 
 	describe('onRepoLoad', () => {

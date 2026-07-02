@@ -425,6 +425,13 @@ class Config {
 	}
 
 	/**
+	 * Get the value of the `git-graph.repository.trackRemoteTags` Extension Setting.
+	 */
+	get trackRemoteTags() {
+		return !!this.config.get('repository.trackRemoteTags', false);
+	}
+
+	/**
 	 * Get the value of the `git-graph.repository.includeCommitsMentionedByReflogs` Extension Setting.
 	 */
 	get includeCommitsMentionedByReflogs() {
