@@ -1486,7 +1486,7 @@ export class DataSource extends Disposable {
 			let lines = stdout.split(EOL_REGEX);
 			for (let i = 0; i < lines.length - 1; i++) {
 				let name = lines[i].substring(2).split(' -> ')[0];
-				if (INVALID_BRANCH_REGEXP.test(name) || hideRemotePatterns.some((pattern) => name.startsWith(pattern)) || (!showRemoteHeads && REMOTE_HEAD_BRANCH_REGEXP.test(name))) {
+				if (INVALID_BRANCH_REGEXP.test(name) || hideRemotePatterns.some((pattern) => name.startsWith(pattern)) || (!showRemoteHeads && REMOTE_HEAD_BRANCH_REGEXP.test(name)) || (name.startsWith('remotes/') && name.indexOf('/tags/') > -1)) {
 					continue;
 				}
 
