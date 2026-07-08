@@ -2,7 +2,7 @@ import * as vscode from 'vscode';
 import { Logger } from './logger';
 import { getPathFromUri } from './utils';
 
-const FILE_CHANGE_REGEX = /(^\.git\/(config|index|HEAD|refs\/stash|refs\/heads\/.*|refs\/remotes\/.*|refs\/tags\/.*)$)|(^(?!\.git).*$)|(^\.git[^\/]+$)/;
+const FILE_CHANGE_REGEX = /(^\.git\/(config|index|HEAD|refs\/stash|refs\/heads\/.*|refs\/remotes\/.*|refs\/tags\/.*|refs\/notes\/.*)$)|(^(?!\.git).*$)|(^\.git[^\/]+$)/;
 
 /**
  * Watches a Git repository for file events.

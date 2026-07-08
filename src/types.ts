@@ -7,6 +7,7 @@ export interface GitCommit {
 	readonly email: string;
 	readonly date: number;
 	readonly message: string;
+	readonly notes: string;
 	readonly heads: ReadonlyArray<string>;
 	readonly tags: ReadonlyArray<GitCommitTag>;
 	readonly remotes: ReadonlyArray<GitCommitRemote>;
@@ -371,6 +372,7 @@ export interface ContextMenuActionsVisibility {
 		readonly copyName: boolean;
 	};
 	readonly commit: {
+		readonly addNote: boolean;
 		readonly addTag: boolean;
 		readonly createBranch: boolean;
 		readonly checkout: boolean;
@@ -384,6 +386,12 @@ export interface ContextMenuActionsVisibility {
 		readonly editMessage: boolean;
 		readonly copyHash: boolean;
 		readonly copySubject: boolean;
+	};
+	readonly note: {
+		readonly view: boolean;
+		readonly edit: boolean;
+		readonly delete: boolean;
+		readonly copy: boolean;
 	};
 	readonly commitDetailsViewFile: {
 		readonly viewDiff: boolean;
@@ -631,6 +639,15 @@ export interface ResponseAddTag extends ResponseWithMultiErrorInfo {
 	readonly commitHash: string;
 }
 
+export interface RequestAddNote extends RepoRequest {
+	readonly command: 'addNote';
+	readonly commitHash: string;
+	readonly notes: string;
+}
+export interface ResponseAddNote extends ResponseWithErrorInfo {
+	readonly command: 'addNote';
+}
+
 export interface RequestApplyStash extends RepoRequest {
 	readonly command: 'applyStash';
 	readonly selector: string;
@@ -817,6 +834,14 @@ export interface RequestDeleteTag extends RepoRequest {
 }
 export interface ResponseDeleteTag extends ResponseWithErrorInfo {
 	readonly command: 'deleteTag';
+}
+
+export interface RequestDeleteNote extends RepoRequest {
+	readonly command: 'deleteNote';
+	readonly commitHash: string;
+}
+export interface ResponseDeleteNote extends ResponseWithErrorInfo {
+	readonly command: 'deleteNote';
 }
 
 export interface RequestDeleteUserDetails extends RepoRequest {
@@ -1181,6 +1206,15 @@ export interface ResponseEditCommitMessage extends ResponseWithErrorInfo {
 	readonly command: 'editCommitMessage';
 }
 
+export interface RequestEditNote extends RepoRequest {
+	readonly command: 'editNote';
+	readonly commitHash: string;
+	readonly notes: string;
+}
+export interface ResponseEditNote extends ResponseWithErrorInfo {
+	readonly command: 'editNote';
+}
+
 export interface RequestSetGlobalViewState extends BaseMessage {
 	readonly command: 'setGlobalViewState';
 	readonly state: GitGraphViewGlobalState;
@@ -1284,6 +1318,7 @@ export interface ResponseViewScm extends ResponseWithErrorInfo {
 
 export type RequestMessage =
 	RequestAddRemote
+	| RequestAddNote
 	| RequestAddTag
 	| RequestApplyStash
 	| RequestBranchFromStash
@@ -1301,12 +1336,14 @@ export type RequestMessage =
 	| RequestDeleteBranch
 	| RequestDeleteRemote
 	| RequestDeleteRemoteBranch
+	| RequestDeleteNote
 	| RequestDeleteTag
 	| RequestDeleteUserDetails
 	| RequestDropCommit
 	| RequestDropStash
 	| RequestUndoLastCommit
 	| RequestEditCommitMessage
+	| RequestEditNote
 	| RequestEditRemote
 	| RequestEditUserDetails
 	| RequestEndCodeReview
@@ -1350,6 +1387,7 @@ export type RequestMessage =
 
 export type ResponseMessage =
 	ResponseAddRemote
+	| ResponseAddNote
 	| ResponseAddTag
 	| ResponseApplyStash
 	| ResponseBranchFromStash
@@ -1367,12 +1405,14 @@ export type ResponseMessage =
 	| ResponseDeleteBranch
 	| ResponseDeleteRemote
 	| ResponseDeleteRemoteBranch
+	| ResponseDeleteNote
 	| ResponseDeleteTag
 	| ResponseDeleteUserDetails
 	| ResponseDropCommit
 	| ResponseDropStash
 	| ResponseUndoLastCommit
 	| ResponseEditCommitMessage
+	| ResponseEditNote
 	| ResponseEditRemote
 	| ResponseEditUserDetails
 	| ResponseExportRepoConfig

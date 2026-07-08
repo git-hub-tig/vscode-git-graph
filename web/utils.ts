@@ -89,6 +89,7 @@ const CLASS_PENDING_REVIEW = 'pendingReview';
 const CLASS_REFRESHING = 'refreshing';
 const CLASS_REF_HEAD = 'head';
 const CLASS_REF_REMOTE = 'remote';
+const CLASS_REF_NOTE = 'note';
 const CLASS_REF_STASH = 'stash';
 const CLASS_REF_TAG = 'tag';
 const CLASS_SELECTED = 'selected';

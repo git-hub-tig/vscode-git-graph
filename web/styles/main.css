@@ -758,9 +758,15 @@ body.vscode-high-contrast #commitTable tr.commit.findCurrentCommit{
 body.branchLabelsAlignedToGraph tr.commit td:first-child .gitRef:last-child{
 	margin-right:0;
 }
-body.tagLabelsRightAligned .gitRef.tag{
+body.tagLabelsRightAligned .gitRef.tag, body.tagLabelsRightAligned .gitRef.note{
 	margin-left:5px;
 	margin-right:0;
+}
+
+.dialog pre{
+	margin:8px 0 0 0;
+	white-space:pre-wrap;
+	font-family:var(--vscode-editor-font-family);
 }
 
 

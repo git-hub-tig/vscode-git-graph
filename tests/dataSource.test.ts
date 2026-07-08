@@ -4782,6 +4782,59 @@ describe('DataSource', () => {
 		});
 	});
 
+	describe('addNote', () => {
+		it('Should add a note to a commit', async () => {
+			// Setup
+			mockGitSuccessOnce();
+
+			// Run
+			const result = await dataSource.addNote('/path/to/repo', '1a2b3c4d5e6f1a2b3c4d5e6f1a2b3c4d5e6f1a2b', 'note');
+
+			// Assert
+			expect(result).toBe(null);
+			expect(spyOnSpawn).toBeCalledWith('/path/to/git', ['notes', 'add', '-m', 'note', '1a2b3c4d5e6f1a2b3c4d5e6f1a2b3c4d5e6f1a2b'], expect.objectContaining({ cwd: '/path/to/repo' }));
+		});
+
+		it('Should return an error message thrown by git', async () => {
+			// Setup
+			mockGitThrowingErrorOnce();
+
+			// Run
+			const result = await dataSource.addNote('/path/to/repo', '1a2b3c4d5e6f1a2b3c4d5e6f1a2b3c4d5e6f1a2b', 'note');
+
+			// Assert
+			expect(result).toBe('error message');
+		});
+	});
+
+	describe('editNote', () => {
+		it('Should edit a note on a commit', async () => {
+			// Setup
+			mockGitSuccessOnce();
+
+			// Run
+			const result = await dataSource.editNote('/path/to/repo', '1a2b3c4d5e6f1a2b3c4d5e6f1a2b3c4d5e6f1a2b', 'updated note');
+
+			// Assert
+			expect(result).toBe(null);
+			expect(spyOnSpawn).toBeCalledWith('/path/to/git', ['notes', 'add', '-f', '-m', 'updated note', '1a2b3c4d5e6f1a2b3c4d5e6f1a2b3c4d5e6f1a2b'], expect.objectContaining({ cwd: '/path/to/repo' }));
+		});
+	});
+
+	describe('deleteNote', () => {
+		it('Should delete a note from a commit', async () => {
+			// Setup
+			mockGitSuccessOnce();
+
+			// Run
+			const result = await dataSource.deleteNote('/path/to/repo', '1a2b3c4d5e6f1a2b3c4d5e6f1a2b3c4d5e6f1a2b');
+
+			// Assert
+			expect(result).toBe(null);
+			expect(spyOnSpawn).toBeCalledWith('/path/to/git', ['notes', 'remove', '1a2b3c4d5e6f1a2b3c4d5e6f1a2b3c4d5e6f1a2b'], expect.objectContaining({ cwd: '/path/to/repo' }));
+		});
+	});
+
 	describe('fetch', () => {
 		it('Should fetch all remotes', async () => {
 			// Setup
