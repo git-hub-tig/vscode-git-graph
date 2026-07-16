@@ -8,7 +8,7 @@ import { Logger } from './logger';
 import { RepoFileWatcher } from './repoFileWatcher';
 import { RepoManager } from './repoManager';
 import { ErrorInfo, GitConfigLocation, GitGraphViewInitialState, GitPushBranchMode, GitRepoSet, LoadGitGraphViewTo, RequestMessage, ResponseMessage, TabIconColourTheme } from './types';
-import { UNABLE_TO_FIND_GIT_MSG, UNCOMMITTED, archive, copyFilePathToClipboard, copyToClipboard, createPullRequest, getNonce, openExtensionSettings, openExternalUrl, openFile, showErrorMessage, viewDiff, viewDiffWithWorkingFile, viewFileAtRevision, viewScm } from './utils';
+import { UNABLE_TO_FIND_GIT_MSG, UNCOMMITTED, archive, copyFilePathToClipboard, copyToClipboard, createPullRequest, getNonce, isAdRegion, openExtensionSettings, openExternalUrl, openFile, showErrorMessage, viewDiff, viewDiffWithWorkingFile, viewFileAtRevision, viewScm } from './utils';
 import { Disposable, toDisposable } from './utils/disposable';
 
 /**
@@ -748,7 +748,7 @@ export class GitGraphView extends Disposable {
 			</body>`;
 		} else if (numRepos > 0) {
 			const stickyClassAttr = initialState.config.stickyHeader ? ' class="sticky"' : '';
-			const adBannerHTML = !globalState.hideLogiCarAd ? `
+			const adBannerHTML = (!globalState.hideLogiCarAd && isAdRegion()) ? `
 			<div id="logicar-ad-banner" style="background: var(--vscode-editorInfo-background); color: var(--vscode-editorInfo-foreground); padding: 8px 12px; display: flex; justify-content: space-between; align-items: center; z-index: 1000; font-family: var(--vscode-font-family); font-size: 13px; border-bottom: 1px solid var(--vscode-panel-border);">
 				<div style="display: flex; align-items: center;">
 					<img src="https://ik.imagekit.io/rswqmrzkwj/minzhi.online.logo?updatedAt=1772383512196" alt="LogiCar Logo" style="height: 24px; margin-right: 10px; border-radius: 4px;">
