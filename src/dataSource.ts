@@ -113,7 +113,8 @@ export class DataSource extends Disposable {
 		this.gitFormatLog = [
 			'%H', '%P', // Hash & Parent Information
 			useMailmap ? '%aN' : '%an', useMailmap ? '%aE' : '%ae', dateType, // Author / Commit Information
-			'%B' // Body
+			'%B', // Body
+			'%N' // Notes
 		].join(GIT_LOG_SEPARATOR);
 
 		this.gitFormatStash = [
@@ -221,7 +222,7 @@ export class DataSource extends Disposable {
 					if (refData.head === commits[i].hash) {
 						const numUncommittedChanges = await this.getUncommittedChanges(repo);
 						if (numUncommittedChanges > 0) {
-							commits.unshift({ hash: UNCOMMITTED, parents: [refData.head], author: '*', email: '', date: Math.round((new Date()).getTime() / 1000), message: 'Uncommitted Changes (' + numUncommittedChanges + ')' });
+							commits.unshift({ hash: UNCOMMITTED, parents: [refData.head], author: '*', email: '', date: Math.round((new Date()).getTime() / 1000), message: 'Uncommitted Changes (' + numUncommittedChanges + ')', notes: '' });
 						}
 						break;
 					}
@@ -259,6 +260,7 @@ export class DataSource extends Disposable {
 					email: stash.email,
 					date: stash.date,
 					message: stash.message,
+					notes: '',
 					heads: [], tags: [], remotes: [],
 					stash: {
 						selector: stash.selector,
@@ -798,6 +800,17 @@ export class DataSource extends Disposable {
 	}
 
 	/**
+	 * Add a note to a commit.
+	 * @param repo The path of the repository.
+	 * @param commitHash The hash of the commit the note should be added to.
+	 * @param notes The note contents.
+	 * @returns The ErrorInfo from the executed command.
+	 */
+	public addNote(repo: string, commitHash: string, notes: string) {
+		return this.runGitCommand(['notes', 'add', '-m', notes, commitHash], repo);
+	}
+
+	/**
 	 * Delete an existing tag from a repository.
 	 * @param repo The path of the repository.
 	 * @param tagName The name of the tag.
@@ -821,6 +834,16 @@ export class DataSource extends Disposable {
 
 		if (status !== null && status.includes('not found')) return null;
 		return status;
+	}
+
+	/**
+	 * Delete a note from a commit.
+	 * @param repo The path of the repository.
+	 * @param commitHash The hash of the commit the note should be deleted from.
+	 * @returns The ErrorInfo from the executed command.
+	 */
+	public deleteNote(repo: string, commitHash: string) {
+		return this.runGitCommand(['notes', 'remove', commitHash], repo);
 	}
 
 
@@ -1263,6 +1286,17 @@ export class DataSource extends Disposable {
 		}
 	}
 
+	/**
+	 * Edit a note on a commit.
+	 * @param repo The path of the repository.
+	 * @param commitHash The hash of the commit the note should be edited on.
+	 * @param notes The new note contents.
+	 * @returns The ErrorInfo from the executed command.
+	 */
+	public editNote(repo: string, commitHash: string, notes: string) {
+		return this.runGitCommand(['notes', 'add', '-f', '-m', notes, commitHash], repo);
+	}
+
 
 	/* Git Action Methods - Config */
 
@@ -1683,15 +1717,17 @@ export class DataSource extends Disposable {
 			const commits: GitCommitRecord[] = [];
 			for (const rec of records) {
 				const parts = rec.split(GIT_LOG_SEPARATOR);
-				// parts = [hash, parents, author, email, date, full body]
+				// parts = [hash, parents, author, email, date, full body, notes]
 				if (parts.length < 6) continue;
+				const hasNotesField = parts.length > 6;
 				commits.push({
 					hash: parts[0],
 					parents: parts[1] ? parts[1].split(' ') : [],
 					author: parts[2],
 					email: parts[3],
 					date: parseInt(parts[4], 10),
-					message: parts.slice(5).join(GIT_LOG_SEPARATOR)
+					message: hasNotesField ? parts.slice(5, parts.length - 1).join(GIT_LOG_SEPARATOR) : parts.slice(5).join(GIT_LOG_SEPARATOR),
+					notes: hasNotesField ? removeTrailingBlankLines(parts[parts.length - 1].split(EOL_REGEX)).join('\n') : ''
 				});
 			}
 			return commits;
@@ -2136,6 +2172,7 @@ interface GitCommitRecord {
 	email: string;
 	date: number;
 	message: string;
+	notes: string;
 }
 
 interface GitCommitData {

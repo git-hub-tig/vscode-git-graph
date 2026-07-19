@@ -380,6 +380,7 @@ class GitGraphView {
 
 		if (!this.currentRepoLoading && !this.currentRepoRefreshState.hard && this.moreCommitsAvailable === moreAvailable && this.onlyFollowFirstParent === onlyFollowFirstParent && this.commitHead === commitHead && commits.length > 0 && arraysEqual(this.commits, commits, (a, b) =>
 			a.hash === b.hash &&
+			a.notes === b.notes &&
 			arraysStrictlyEqual(a.heads, b.heads) &&
 			arraysEqual(a.tags, b.tags, (a: GG.GitCommitTag, b: GG.GitCommitTag) => a.name === b.name && a.annotated === b.annotated) &&
 			arraysEqual(a.remotes, b.remotes, (a: GG.GitCommitRemote, b: GG.GitCommitRemote) => a.name === b.name && a.remote === b.remote) &&
@@ -960,7 +961,7 @@ class GitGraphView {
 			message += '</span>';
 			let date = formatShortDate(commit.date);
 			let branchLabels = getBranchLabels(commit.heads, commit.remotes);
-			let refBranches = '', refTags = '', j, k, refName, remoteName, refActive, refHtml, branchCheckedOutAtCommit: string | null = null;
+			let refBranches = '', refTags = '', refNotes = '', j, k, refName, remoteName, refActive, refHtml, branchCheckedOutAtCommit: string | null = null;
 
 			for (j = 0; j < branchLabels.heads.length; j++) {
 				refName = escapeHtml(branchLabels.heads[j].name);
@@ -1004,6 +1005,12 @@ class GitGraphView {
 				refBranches = '<span class="gitRef stash" data-name="' + refName + '">' + SVG_ICONS.stash + '<span class="gitRefName" data-fullref="' + refName + '">' + escapeHtml(commit.stash.selector.substring(5)) + '</span></span>' + refBranches;
 			}
 
+			if (commit.notes !== '') {
+				let notePreview = commit.notes.split(/\r?\n/)[0].trim();
+				if (notePreview.length > 40) notePreview = notePreview.substring(0, 40) + ELLIPSIS;
+				refNotes = '<span class="gitRef note" data-name="' + escapeHtml(commit.hash) + '" title="' + escapeHtml(commit.notes) + '">' + SVG_ICONS.info + '<span class="gitRefName" data-fullref="' + escapeHtml(commit.hash) + '">Note' + (notePreview !== '' ? ': ' + escapeHtml(notePreview) : '') + '</span></span>';
+			}
+
 			const commitDot = commit.hash === this.commitHead
 				? '<span class="commitHeadDot" title="' + (branchCheckedOutAtCommit !== null
 					? 'The branch ' + escapeHtml('"' + branchCheckedOutAtCommit + '"') + ' is currently checked out at this commit'
@@ -1012,7 +1019,7 @@ class GitGraphView {
 				: '';
 
 			html += '<tr class="commit' + (commit.hash === currentHash ? ' current' : '') + (mutedCommits[i] ? ' mute' : '') + '"' + (commit.hash !== UNCOMMITTED ? '' : ' id="uncommittedChanges"') + ' data-id="' + i + '" data-color="' + vertexColours[i] + '">' +
-				(this.config.referenceLabels.branchLabelsAlignedToGraph ? '<td>' + getResizeColHtml(0) + (refBranches !== '' ? '<span style="margin-left:' + (widthsAtVertices[i] - 4) + 'px"' + refBranches.substring(5) : '') + '</td><td>' + getResizeColHtml(1) + '<span class="description">' + commitDot : '<td>' + getResizeColHtml(0) + '</td><td>' + getResizeColHtml(1) + '<span class="description">' + commitDot + refBranches) + (this.config.referenceLabels.tagLabelsOnRight ? message + (refTags !== '' ? '<span class="tagsWrapper">' + refTags + '</span>' : '') : refTags + message) + '</span></td>' +
+				(this.config.referenceLabels.branchLabelsAlignedToGraph ? '<td>' + getResizeColHtml(0) + (refBranches !== '' ? '<span style="margin-left:' + (widthsAtVertices[i] - 4) + 'px"' + refBranches.substring(5) : '') + '</td><td>' + getResizeColHtml(1) + '<span class="description">' + commitDot : '<td>' + getResizeColHtml(0) + '</td><td>' + getResizeColHtml(1) + '<span class="description">' + commitDot + refBranches) + (this.config.referenceLabels.tagLabelsOnRight ? refNotes + message + (refTags !== '' ? '<span class="tagsWrapper">' + refTags + '</span>' : '') : refTags + refNotes + message) + '</span></td>' +
 				(colVisibility.date ? '<td class="dateCol text" title="' + date.title + '">' + getResizeColHtml(2) + date.formatted + '</td>' : '') +
 				(colVisibility.author ? '<td class="authorCol text" title="' + escapeHtml(commit.author + ' <' + commit.email + '>') + '">' + getResizeColHtml(3) + (this.config.fetchAvatars ? '<span class="avatar" data-email="' + escapeHtml(commit.email) + '">' + (typeof this.avatars[commit.email] === 'string' ? '<img class="avatarImg" src="' + this.avatars[commit.email] + '">' : '') + '</span>' : '') + escapeHtml(commit.author) + '</td>' : '') +
 				(colVisibility.commit ? '<td class="text" title="' + escapeHtml(commit.hash) + '">' + getResizeColHtml(4) + abbrevCommit(commit.hash) + '</td>' : '') +
@@ -1300,6 +1307,10 @@ class GitGraphView {
 		const commit = this.commits[this.commitLookup[hash]];
 		return [[
 			{
+				title: 'Add Note' + ELLIPSIS,
+				visible: visibility.addNote && commit.notes === '',
+				onClick: () => this.addNoteAction(hash, '', target)
+			}, {
 				title: 'Add Tag' + ELLIPSIS,
 				visible: visibility.addTag,
 				onClick: () => this.addTagAction(hash, '', this.config.dialogDefaults.addTag.type, '', null, target)
@@ -1443,6 +1454,38 @@ class GitGraphView {
 				visible: visibility.copySubject,
 				onClick: () => {
 					sendMessage({ command: 'copyToClipboard', type: 'Commit Subject', data: commit.message });
+				}
+			}
+		]];
+	}
+
+	private getNoteContextMenuActions(target: DialogTarget & RefTarget): ContextMenuActions {
+		const hash = target.hash, visibility = this.config.contextMenuActionsVisibility.note;
+		const commit = this.commits[this.commitLookup[hash]];
+		return [[
+			{
+				title: 'View Note',
+				visible: visibility.view,
+				onClick: () => this.viewNoteAction(hash, commit.notes)
+			}, {
+				title: 'Edit Note' + ELLIPSIS,
+				visible: visibility.edit,
+				onClick: () => this.editNoteAction(hash, commit.notes, target)
+			}, {
+				title: 'Delete Note' + ELLIPSIS,
+				visible: visibility.delete,
+				onClick: () => {
+					dialog.showConfirmation('Are you sure you want to delete the note on commit <b><i>' + abbrevCommit(hash) + '</i></b>?', 'Yes, delete', () => {
+						runAction({ command: 'deleteNote', repo: this.currentRepo, commitHash: hash }, 'Deleting Note');
+					}, target);
+				}
+			}
+		], [
+			{
+				title: 'Copy Note to Clipboard',
+				visible: visibility.copy,
+				onClick: () => {
+					sendMessage({ command: 'copyToClipboard', type: 'Note', data: commit.notes });
 				}
 			}
 		]];
@@ -1769,6 +1812,23 @@ class GitGraphView {
 
 	/* Actions */
 
+	private addNoteAction(hash: string, initialNotes: string, target: DialogTarget & CommitTarget) {
+		dialog.showForm('Add note to commit <b><i>' + abbrevCommit(hash) + '</i></b>:', [{
+			type: DialogInputType.Textarea,
+			lines: 5,
+			name: 'Note',
+			default: initialNotes,
+			placeholder: 'Enter the note'
+		}], 'Add Note', (values) => {
+			const notes = <string>values[0];
+			if (notes.trim() === '') {
+				dialog.showError('Note cannot be empty.', null, null, null);
+				return;
+			}
+			runAction({ command: 'addNote', repo: this.currentRepo, commitHash: hash, notes: notes }, 'Adding Note');
+		}, target);
+	}
+
 	private addTagAction(hash: string, initialName: string, initialType: GG.TagType, initialMessage: string, initialPushToRemote: string | null, target: DialogTarget & CommitTarget, isInitialLoad: boolean = true) {
 		let mostRecentTagsIndex = -1;
 		for (let i = 0; i < this.commits.length; i++) {
@@ -1841,6 +1901,28 @@ class GitGraphView {
 				runAddTagAction(false);
 			}
 		}, target);
+	}
+
+	private editNoteAction(hash: string, initialNotes: string, target: DialogTarget & RefTarget) {
+		dialog.showForm('Edit note on commit <b><i>' + abbrevCommit(hash) + '</i></b>:', [{
+			type: DialogInputType.Textarea,
+			lines: 5,
+			name: 'Note',
+			default: initialNotes,
+			placeholder: 'Enter the note'
+		}], 'Update Note', (values) => {
+			const notes = <string>values[0];
+			if (notes.trim() === '') {
+				dialog.showError('Note cannot be empty.', null, null, null);
+				return;
+			}
+			if (notes === initialNotes) return;
+			runAction({ command: 'editNote', repo: this.currentRepo, commitHash: hash, notes: notes }, 'Editing Note');
+		}, target);
+	}
+
+	private viewNoteAction(hash: string, notes: string) {
+		dialog.showMessage('Note on commit <b><i>' + abbrevCommit(hash) + '</i></b>:' + '<pre>' + escapeHtml(notes) + '</pre>');
 	}
 
 	private checkoutBranchAction(refName: string, remote: string | null, prefillName: string | null, target: DialogTarget & (CommitTarget | RefTarget)) {
@@ -2537,7 +2619,9 @@ class GitGraphView {
 				};
 
 				let actions: ContextMenuActions;
-				if (eventElem.classList.contains(CLASS_REF_STASH)) {
+				if (eventElem.classList.contains(CLASS_REF_NOTE)) {
+					actions = this.getNoteContextMenuActions(target);
+				} else if (eventElem.classList.contains(CLASS_REF_STASH)) {
 					actions = this.getStashContextMenuActions(target);
 				} else if (eventElem.classList.contains(CLASS_REF_TAG)) {
 					actions = this.getTagContextMenuActions(eventElem.dataset.tagtype === 'annotated', target);
@@ -3515,6 +3599,9 @@ window.addEventListener('load', () => {
 					refreshAndDisplayErrors(msg.errors, 'Unable to Add Tag');
 				}
 				break;
+			case 'addNote':
+				refreshOrDisplayError(msg.error, 'Unable to Add Note');
+				break;
 			case 'applyStash':
 				refreshOrDisplayError(msg.error, 'Unable to Apply Stash');
 				break;
@@ -3579,6 +3666,9 @@ window.addEventListener('load', () => {
 				break;
 			case 'deleteTag':
 				refreshOrDisplayError(msg.error, 'Unable to Delete Tag');
+				break;
+			case 'deleteNote':
+				refreshOrDisplayError(msg.error, 'Unable to Delete Note');
 				break;
 			case 'deleteUserDetails':
 				finishOrDisplayErrors(msg.errors, 'Unable to Remove Git User Details', () => gitGraph.requestLoadConfig(), true);
@@ -3693,6 +3783,9 @@ window.addEventListener('load', () => {
 				break;
 			case 'editCommitMessage':
 				refreshOrDisplayError(msg.error, 'Unable to Edit Commit Message');
+				break;
+			case 'editNote':
+				refreshOrDisplayError(msg.error, 'Unable to Edit Note');
 				break;
 
 			case 'setGlobalViewState':

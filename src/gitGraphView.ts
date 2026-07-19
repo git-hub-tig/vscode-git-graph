@@ -206,6 +206,12 @@ export class GitGraphView extends Disposable {
 					errors: errorInfos
 				});
 				break;
+			case 'addNote':
+				this.sendMessage({
+					command: 'addNote',
+					error: await this.dataSource.addNote(msg.repo, msg.commitHash, msg.notes)
+				});
+				break;
 			case 'applyStash':
 				this.sendMessage({
 					command: 'applyStash',
@@ -342,6 +348,12 @@ export class GitGraphView extends Disposable {
 				this.sendMessage({
 					command: 'deleteTag',
 					error: await this.dataSource.deleteTag(msg.repo, msg.tagName, msg.deleteOnRemote)
+				});
+				break;
+			case 'deleteNote':
+				this.sendMessage({
+					command: 'deleteNote',
+					error: await this.dataSource.deleteNote(msg.repo, msg.commitHash)
 				});
 				break;
 			case 'deleteUserDetails':
@@ -578,6 +590,12 @@ export class GitGraphView extends Disposable {
 				this.sendMessage({
 					command: 'editCommitMessage',
 					error: await this.dataSource.editCommitMessage(msg.repo, msg.commitHash, msg.message)
+				});
+				break;
+			case 'editNote':
+				this.sendMessage({
+					command: 'editNote',
+					error: await this.dataSource.editNote(msg.repo, msg.commitHash, msg.notes)
 				});
 				break;
 
